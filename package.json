@@ -1,0 +1,9 @@
+{
+  "name": "audiobox-lib",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "restler": "latest",
+    "logging": "latest"
+  }
+}
