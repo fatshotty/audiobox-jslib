@@ -8,8 +8,11 @@ var Logger = require("logging");
 
 describe("Playlists", function(){
 
-  asyncSpecWait();
-  AudioBox.User.load(Fixtures.User.emailOK, Fixtures.User.pwdOK).on("complete", asyncSpecDone)
+  beforeEach(function(){
+    asyncSpecWait();
+    AudioBox.User.load(Fixtures.User.emailOK, Fixtures.User.pwdOK).on("complete", asyncSpecDone);
+  });
+
 
 
   it("should be correctly instantiated", function(){
@@ -21,13 +24,6 @@ describe("Playlists", function(){
     expect( Array.prototype.isPrototypeOf(playlists) ).toBe(true);
     expect( EventEmitter.prototype.isPrototypeOf(playlists) ).toBe(true);
 
-  });
-
-
-  it("should contain 8 playlists", function(){
-    var user = AudioBox.User;
-
-    var playlists = user.playlists;
 
     asyncSpecWait();
 
