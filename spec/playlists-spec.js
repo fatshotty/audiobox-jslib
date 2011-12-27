@@ -34,7 +34,7 @@ describe("Playlists", function(){
       })
       .on("error", function(){
         expect(false).toBe(true);
-      })
+      });
 
   });
 
