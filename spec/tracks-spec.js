@@ -37,7 +37,6 @@ describe("Tracks", function(){
   });
 
 
-
   it('should be correctly instantiated',function(){
 
     var tracks = pl.tracks;
