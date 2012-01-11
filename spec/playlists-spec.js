@@ -30,7 +30,8 @@ describe("Playlists", function(){
     playlists.load()
       .on("complete", asyncSpecDone)
       .on("success", function(){
-        expect(playlists.length).toBe(8)
+        expect(playlists.length).toBe(8);
+        expect(playlists.isLoaded).toBe(true);
       })
       .on("error", function(){
         expect(false).toBe(true);
