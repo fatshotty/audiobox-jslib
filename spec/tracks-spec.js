@@ -59,28 +59,38 @@ describe("Tracks", function(){
 
   });
 
-  it('should be downloaded', function(){
+  // it('should be downloaded', function(){
+  //   var tracks = pl.tracks;
+  //   var track = tracks.find("wF80grQptQX2pij61tNufo");
+
+  //   expect(track).toNotBe(null);
+
+  //   asyncSpecWait();
+  //   var req = track.download('/Users/fatshotty/Sites/audiobox/node/test/fixtures/audio.mp3');
+
+  //   var old_perc = -1;
+
+  //   req.on('complete',function(){
+  //     console.info('download complete');
+  //     asyncSpecDone();
+  //   })
+  //   .on('progress', function(perc){
+  //     if ( perc != old_perc )
+  //       console.info( "progress", perc );
+  //   })
+  //   .on('error', function( e ){
+  //     console.info( "error downloading" );
+  //   });
+  // });
+
+  it('should return the correct fullpath', function(){
+
     var tracks = pl.tracks;
     var track = tracks.find("wF80grQptQX2pij61tNufo");
 
-    expect(track).toNotBe(null);
+    var url = track.fullStreamUrl;
+    expect( url.indexOf( AudioBox.User.auth_token ) > -1 ).toBe(true);
 
-    asyncSpecWait();
-    var req = track.download('/Users/fatshotty/Sites/audiobox/node/test/fixtures/audio.mp3');
-
-    var old_perc = -1;
-
-    req.on('complete',function(){
-      console.info('download complete');
-      asyncSpecDone();
-    })
-    .on('progress', function(perc){
-      if ( perc != old_perc )
-        console.info( "progress", perc );
-    })
-    .on('error', function( e ){
-      console.info( "error downloading" );
-    });
   });
 
 

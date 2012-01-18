@@ -1,3 +1,10 @@
 /test
 /node_modules
 .nide
+
+
+*/.DS_Store
+.DS_Store
+
+*/._.DS_Store
+._.DS_Store
