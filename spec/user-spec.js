@@ -4,7 +4,7 @@ var Fixtures = require("../test/fixtures");
 
 
 describe("User", function(){
-
+  var user_loaded = false
   AudioBox = new AudioBox( new Configuration() );
 
   it('should be correctly populated', function(){
@@ -18,6 +18,10 @@ describe("User", function(){
       .on("success", function(){
         expect(user.email).toEqual( Fixtures.User.emailOK);
         expect(user.username).toEqual( Fixtures.User.username );
+        user_loaded = true;
+      })
+      .on("error", function(){
+        user_loaded = false;
       });
 
   });
@@ -26,9 +30,11 @@ describe("User", function(){
   it("should be already logged", function(){
     var user = AudioBox.User;
 
-    expect(user.email).toEqual( Fixtures.User.emailOK );
-    expect(user.username).toEqual( Fixtures.User.username );
-    expect(user.auth_token.length).toEqual( 20 );
+    if ( user_loaded ){
+      expect(user.email).toEqual( Fixtures.User.emailOK );
+      expect(user.username).toEqual( Fixtures.User.username );
+      expect(user.auth_token.length).toEqual( 20 );
+    }
 
   });
 
