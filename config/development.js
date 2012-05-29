@@ -2,11 +2,20 @@ module.exports = {
 
   env: "development",
 
-  HTTPServer: "localhost",
-  HTTPPort: 5000,
+  RailsProtocol: "http",
+  RailsServer: "localhost",
+  RailsPort: 5000,
+  RailsApiPath: "/api/v1",
 
-  UPServer: "localhost",
-  UPPort: 3000,
+  NodeProtocol: "http",
+  NodeServer: "localhost",
+  NodePort: 3000,
+  NodeApiPath: "/api/v1",
+
+  DaemonProtocol: "http",
+  DaemonServer: "localhost",
+  DaemonPort: 3000,
+  DaemonApiPath: "/api/v1",
 
   UserAgent: "AudioBox.fm 2 API framework"
 
