@@ -1,5 +1,5 @@
-var AudioBox = require("../lib/audiobox");
-var Configuration = require("../lib/configuration");
+var AudioBox = require("../core/audiobox");
+var Configuration = require("../configuration/configuration");
 var Settings = require("../config/development");
 
 

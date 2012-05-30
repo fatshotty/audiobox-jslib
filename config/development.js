@@ -3,17 +3,17 @@ module.exports = {
   env: "development",
 
   RailsProtocol: "http",
-  RailsServer: "localhost",
+  RailsHost: "localhost",
   RailsPort: 5000,
   RailsApiPath: "/api/v1",
 
   NodeProtocol: "http",
-  NodeServer: "localhost",
+  NodeHost: "localhost",
   NodePort: 3000,
   NodeApiPath: "/api/v1",
 
   DaemonProtocol: "http",
-  DaemonServer: "localhost",
+  DaemonHost: "localhost",
   DaemonPort: 3000,
   DaemonApiPath: "/api/v1",
 

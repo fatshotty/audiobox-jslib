@@ -1,6 +1,6 @@
 var EventEmitter = require("events").EventEmitter;
 var Request = require("./request");
-var Utils = require("./utils");
+var Utils = require("../configuration/utils");
 var Logger = require("logging").from(__filename);
 
 

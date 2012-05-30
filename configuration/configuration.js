@@ -12,7 +12,7 @@ function Configuration(env) {
     Logger("no environment set, use development instead");
   }
 
-  this.ENV = env
+  this.ENV = env;
 
   return this;
 }
@@ -25,13 +25,24 @@ Configuration.__defineGetter__("SERVERS", function(){
     DAEMON: "Daemon"
   };
 });
-Configuration.prototype.__defineGetter__("SERVERS", function(){
+Configuration.__defineGetter__("RequestFormats", function(){
   return {
-    RAILS: "Rails",
-    NODE: "Node",
-    DAEMON: "Daemon"
+    JSON: "json",
+    XML: "xml",
+    BINARY: ""
   };
 });
+
+
+Configuration.prototype.__defineGetter__("SERVERS", function(){
+  return Configuration.SERVERS;
+});
+
+Configuration.prototype.__defineGetter__("RequestFormats", function(){
+  return Configuration.RequestFormats;
+});
+
+
 
 
 Configuration.prototype.__defineSetter__("ENV", function(env) {

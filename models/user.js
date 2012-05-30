@@ -1,12 +1,16 @@
 var Module = require("./module");
 var Logger = require("logging").from(__filename);
+var Collection = require("./collection");
+
+
+var Permissions = require("./permissions");
 
 /**
   { user:
     { username: 'fatshotty',
       real_name: null,
       email: 'fat@fatshotty.net',
-      auth_token: 'S1bmdtFzNpqxv1wxUC5j',
+      auth_token: '',
       media_files_count: 139,
       playlists_count: 11,
       total_play_count: 93,
@@ -51,11 +55,10 @@ function User(config, connectors){
   Module.call( this, User.DECLARED_FIELDS, config, connectors );
 
 
-
   var addAuthToken = function(request) {
     if ( self.auth_token ){
       Logger("setting auth_token", self.auth_token);
-      req.auth_token = self.auth_token;
+      request.auth_token = self.auth_token;
     }
   };
 
@@ -77,7 +80,6 @@ User.prototype.__proto__ = Module.prototype;
 
 
 User.DECLARED_FIELDS = Object.freeze({
-  END_POINT: END_POINT,
 
   username: "",
   real_name: "",
@@ -98,7 +100,7 @@ User.DECLARED_FIELDS = Object.freeze({
   dropbox_data_stored_this_month: 0,
   accepted_extensions: "",
   accepted_formats: ""
-  //, permissions: Permission
+
 });
 
 
@@ -112,12 +114,17 @@ User.DECLARED_FIELDS = Object.freeze({
 User.prototype.load = function(username, password){
 
   // Reset all fields
-  this._fields = {};
+  this._clear();
 
   var self = this;  // shortcut to 'this' instance
 
-
   var request = this.RailsConnector.Request; // new request
+
+
+  // Set the 'extension' for the URL
+  request.requestFormat = this.Configuration.RequestFormats.JSON;
+
+
 
   request.beforeSend = function(req){
     Logger("set credentials");
@@ -127,9 +134,9 @@ User.prototype.load = function(username, password){
 
   // Request successfully completed
   request.success = function(res, data){
-    var
-      userdata = data.user,
-      keys = Object.keys(userdata);
+
+    data = JSON.parse(data);
+    var userdata = self._extractData( data );
 
     self._parseResponse( userdata );
 
@@ -137,3 +144,32 @@ User.prototype.load = function(username, password){
 
   return request.get( END_POINT );
 };
+
+User.prototype.__defineGetter__("END_POINT", function(){
+  return END_POINT;
+});
+
+
+
+User.prototype.__defineGetter__("permissions", function(){
+  if( !this._permissions ){
+    this._permissions = new Permissions(this.Configuration, this.Connectors);
+  }
+  return this._permissions;
+});
+
+
+User.prototype.__defineGetter__("playlists", function(){
+  if( !this._playlists ){
+    this._playlists = new Collection(this.Configuration, this.Connectors, "playlists");
+  }
+  return this._playlists;
+});
+
+
+User.prototype._clear = function() {
+  Module.prototype._clear.call(this);
+  this._permissions && this._permissions._clear();
+  this._permissions = null;
+};
+

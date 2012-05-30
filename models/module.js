@@ -1,4 +1,4 @@
-var Utils = require("./utils");
+var Utils = require("../configuration/utils");
 var Logger = require("logging");
 var Collection = require("./collection");
 
@@ -17,34 +17,25 @@ function Module(declared_fields, config, connectors){
    */
   Object.keys( declared_fields ).forEach(function(fName){
 
-    this.__defineGetter__(fName, function(){
+    if ( !this.__lookupGetter__(fName) ){
 
-      var value = this._fields[ fName ];
+      this.__defineGetter__( fName, function() {
+        return this._fields[ fName ] || null;
 
-      if ( ! Utils.isDefined(value) ){
+      });
 
-        // No value exists, try to instantiate a new one
-        var value = declared_fields[ fName ];
+    }
 
-        if ( typeof value == "function" ){
+    if ( ! this.__lookupSetter__(fName) ){
 
-          value = new value( this.connector, fName );
-
-          if( value.CLASS_TYPE == Collection.CLASS_TYPE ) {
-            Logger("found a collection child", fName);
-            value.parent = this;
-
-          }
-        }
-
+      this.__defineSetter__( fName, function(value) {
         this._fields[ fName ] = value;
-      }
+      });
 
-      return value;
-    });
+    }
+
 
   }, this);
-
 
 
 
@@ -54,22 +45,34 @@ function Module(declared_fields, config, connectors){
    */
   this._parseResponse = function(data){
 
-    var keys = Object.keys(data);
+    if ( !data ) return this;
 
-    // Populate class with server response
-    keys.forEach(function(field){
+    Object.keys( data ).forEach(function(fName){
 
-      var type = declared_fields[ field ];
-
-      if (  Module.prototype.isPrototypeOf( type ) ){
-        var value = new type(this.connector);
-        value._parseResponse( data[field] );
-        this._fields[ field ] = value
-      } else {
-        this._fields[ field ] = data[ field ];
+      var value = data[ fName ];
+      if ( value === null || value === undefined ){
+        return true;
       }
 
-    }, this);
+      if ( this[ fName ] && this[ fName ]._parseResponse ){
+
+        // This is an Object attribute
+        if ( typeof value === "object" ){
+
+          // We can populate it with the data response
+          this[ fName ]._parseResponse( value );
+        }
+
+      } else {
+
+        // Simple property, invoke Set method
+        this[ fName ] = value;
+      }
+
+    }, this)
+
+    // Populate class with server response
+
 
     return this;
   };
@@ -84,6 +87,16 @@ function Module(declared_fields, config, connectors){
 }
 
 
+
+
+Module.prototype._clear = function(){
+  this._fields = {};
+};
+
+
+Module.prototype._extractData = function(data){
+  return data[ this.END_POINT ];
+};
 
 
 Module.prototype.__defineGetter__("Connectors", function(){

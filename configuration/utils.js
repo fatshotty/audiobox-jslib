@@ -17,8 +17,8 @@ var Utils = module.exports = {
     keys.forEach(function(k){
 
       if ( fields.hasOwnProperty(k) ){
-        if ( typeof type == "object" ){
-          Object.freeze( fields[k] );
+        if ( typeof fields[k] === "object" ){
+          Utils.freeze( fields[k] );
         }
       }
 

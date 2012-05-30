@@ -1,10 +1,10 @@
-var Utils = require("./utils");
+var Utils = require("../configuration/utils");
 var Connection = require("./connection");
-var Configuration = require("./configuration");
-var Collection = require("./collection");
+var Configuration = require("../configuration/configuration");
+var Collection = require("../models/collection");
 var Logger = require("logging").from(__filename);
-require("./inflector");
-var User = require("./user");
+require("../configuration/inflector");
+var User = require("../models/user");
 
 
 module.exports = AudioBox;

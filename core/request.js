@@ -1,4 +1,4 @@
-var Utils = require("./utils");
+var Utils = require("../configuration/utils");
 var EventEmitter = require("events").EventEmitter;
 var Rest = require("restler");
 var Logger = require("logging").from(__filename);
@@ -19,16 +19,17 @@ function Request(connection){
 
   this._options = {headers:{}, data:{}};
 
-  // default value for "Accept" header
-  this.acceptType = "application/json";
   this.userAgent = this.connector.UserAgent;
-
+  this.requestFormat = null;
+  this.followRedirects = false;
 
   // Empty Event interceptor to avoid EventEmitter errors
   this.on("complete", function(){});
   this.on("success", function(){});
   this.on("error", function(){});
   this.on("beforeSend", function(){});
+  this.on("progress", function(){});
+
 
 
   return this;
@@ -73,30 +74,6 @@ Request.prototype.__defineSetter__("auth_token", function(auth){
 });
 
 
-// TODO: fix the name of the property
-Request.prototype.__defineSetter__('upload', function(value){
-  this._options.multipart = !!value;
-});
-Request.prototype.__defineGetter__('upload', function(){
-  return !!this._options.multipart;
-});
-
-Request.prototype.__defineSetter__('downloadFile', function(value){
-  this._downloadFile = value;
-});
-Request.prototype.__defineGetter__('downloadFile', function(){
-  return this._downloadFile
-});
-
-// Accept type header
-Request.prototype.__defineSetter__('acceptType', function(value){
-  this._options.headers['Accept'] = value;
-});
-Request.prototype.__defineGetter__('acceptType', function(){
-  return this._options.headers['Accept'];
-});
-
-
 // UserAgent header
 Request.prototype.__defineSetter__('userAgent', function(value){
   this._options.headers['User-Agent'] = value;
@@ -105,11 +82,28 @@ Request.prototype.__defineGetter__('userAgent', function(){
   return this._options.headers['User-Agent'];
 });
 
+// RequestFormat for the 'extension' of the URL
+Request.prototype.__defineSetter__('requestFormat', function(value){
+  this._requestFormat = value;
+});
+Request.prototype.__defineGetter__('requestFormat', function(){
+  return this._requestFormat;
+});
+
+
+// Should this request follow redirects?
+Request.prototype.__defineSetter__('followRedirects', function(value){
+  this._options.followRedirects = value;
+});
+Request.prototype.__defineGetter__('followRedirects', function(){
+  return this._options.followRedirects;
+});
+
 
 
 /* ================================
                 EVENTS
-   ================================= */
+   ================================ */
 Request.prototype.__defineSetter__("beforeSend", function(fn){
   this.on('beforeSend', fn);
 });
@@ -126,40 +120,23 @@ Request.prototype.__defineSetter__("error", function(fn){
 
 
 
-
 /* ===========================
         COMMON METHODS
   ============================ */
 
-Request.prototype.getUrl = function(url){
-
-  var url = this.parseUrl( url );
-
-  url += "?auth_token=" + this._options.data.auth_token;
-
-  return url;
-};
-
 Request.prototype.parseUrl = function(url){
 
-  var host = "http://";
-
-  if ( this.upload || !!this.downloadFile ){
-    host += this.connector.NodeServer + ":" + this.connector.NodePort + "/";
-  } else {
-    host += this.connector.RailsServer + ":" + this.connector.RailsPort + this.connector.apiPath;
-  }
-
+  var host = this.connector.Protocol + "://" + this.connector.Host + ":" + this.connector.Port + this.connector.ApiPath;
 
   var url = url || this.url;
 
   if ( !url ) return "";
 
-  if ( url.indexOf("/") == 0 ){
-    url = url.substring(1);
+  if ( url.indexOf("/") != 0 ){
+    url = "/" + url
   }
 
-  url = host + url + (  ( this.upload || !!this.downloadFile ) ? "" : ".json");
+  url = host + url + ( this.requestFormat ? "." + this.requestFormat : "" );
 
   return url;
 };
@@ -174,7 +151,7 @@ Request.prototype._execute = function(method, url, options){
     _options = {};
 
   _options.method = method;
-  _options.followRedirects = false;
+  _options.followRedirects = this.followRedirects;
   _options.data = options.data;
   _options.headers = options.headers;
   _options.username = options.username;
@@ -201,16 +178,6 @@ Request.prototype._execute = function(method, url, options){
         };
       }
 
-      // Logger(response);
-
-      if ( !self.downloadFile ){
-        console.info("no dowload", data)
-      }
-
-      if ( !!this._downloadFile && file ){
-        FS.closeSync( file );
-      }
-
       if ( response.statusCode >= 200 && response.statusCode < 300  ){
         self.emit("success", response, data );
       } else {
@@ -221,10 +188,6 @@ Request.prototype._execute = function(method, url, options){
     })
     .on("error", function(data, response){
 
-      if ( !!this._downloadFile && file ){
-        FS.closeSync( file );
-      }
-
       self.emit("error", response, data );
       self.emit("complete", response, data );
 
@@ -234,13 +197,13 @@ Request.prototype._execute = function(method, url, options){
         progressLength = 0;
       contentLength = parseInt( contentLength , 10 );
       response.on('data', function(chunk){
-        if ( !!this._downloadFile && file ){
-          FS.writeSync(file, chunk, 0, chunk.length, null);
-        }
+
         progressLength += chunk.length;
         var percent = (100 * progressLength) / contentLength;
         self.emit('progress', percent, contentLength, chunk);
+
       });
+
     });
 
 };
@@ -270,6 +233,8 @@ Request.prototype.get = function(url, params){
 
   return this;
 };
+
+
 
 Request.prototype.post = function(){
 

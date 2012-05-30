@@ -1,4 +1,4 @@
-var Utils = require("./utils");
+var Utils = require("../configuration/utils");
 var Logger = require("logging");
 var EventEmitter = require("events").EventEmitter;
 
@@ -6,13 +6,16 @@ var EventEmitter = require("events").EventEmitter;
 module.exports = Collection;
 
 
-function Collection(connector, module_name){
+function Collection(config, connectors, module_name){
+
+
+  this._configuration = config;
+  this._connectors = connectors;
 
   this._isLoaded = false;
 
   this.module_name = module_name
   this.module = require("./" + module_name.singularize() );
-  this.connector = connector;
 
   return this;
 }
@@ -29,6 +32,31 @@ Collection.prototype.__defineGetter__('isLoaded', function(){
   return this._isLoaded;
 });
 
+
+Collection.prototype.__defineGetter__("Connectors", function(){
+  return this._connectors;
+});
+
+Collection.prototype.__defineGetter__("Configuration", function(){
+  return this._configuration;
+});
+
+
+Collection.prototype.__defineGetter__("RailsConnector", function(){
+  return this.Connectors[ this.Configuration.SERVERS.RAILS ];
+});
+
+Collection.prototype.__defineGetter__("NodeConnector", function(){
+  return this.Connectors[ this.Configuration.SERVERS.NODE ];
+});
+
+Collection.prototype.__defineGetter__("DaemonConnector", function(){
+  return this.Connectors[ this.Configuration.SERVERS.DAEMON ];
+});
+
+
+
+
 Collection.prototype._push = Array.prototype.push;
 
 Collection.prototype.push = function(item){
@@ -43,15 +71,20 @@ Collection.prototype.load = function(){
 
   var
     self = this,
-    request = this.connector.Request;
+    request = this.RailsConnector.Request;
+
+  // Set the 'extension' for the URL
+  request.requestFormat = this.Configuration.RequestFormats.JSON;
 
   request.success = function(res, data){
 
-    var
-      collection = self._extractData( data );
+
+    data = JSON.parse( data );
+
+    var collection = self._extractData( data );
 
     collection.forEach(function(item){
-      var module = new this.module( self.connector );
+      var module = new this.module( this.Configuration, this.Connectors );
       module._parseResponse( item );
       this.push( module );
     }, self);
@@ -72,6 +105,7 @@ Collection.prototype.load = function(){
 
 
 Collection.prototype._extractData = function(data){
+  console.info
   return data[ this.module_name ];
 };
 

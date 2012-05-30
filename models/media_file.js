@@ -1,4 +1,4 @@
-var Utils = require("./utils");
+var Utils = require("../configuration/utils");
 var Logger = require("logging");
 var Module = require("./module");
 var Collection = require("./collection");
