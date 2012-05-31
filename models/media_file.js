@@ -1,76 +1,103 @@
 var Utils = require("../configuration/utils");
 var Logger = require("logging");
 var Module = require("./module");
-var Collection = require("./collection");
 
 
-// {"type":"AudioFile","token":"7be76b0e-edcd-4f28-bfed-41587ec9cd49","artist":"Aban","album":"La Bella Italia","genre":"HipHop","release_year":2008,"title":"Intro","length_str":"2:13","length_int":133,"position":1,"play_count":2,"media_file_name":"7be76b0e-edcd-4f28-bfed-41587ec9cd49.mp3","mime":"audio/mpeg","md5":"b07b4b631588bdd223ff40f1e09b4488","loved":true,"disc_number":1}
+/**
+  media_file: {
+    type: 'AudioFile',
+    token: 'c_4330c1a260e85caf5f0831',
+    artist: 'Anto',
+    album: 'Anto selection',
+    genre: 'Raggae',
+    year: 0,
+    title: 'Traccia 3',
+    len_str: '0:43',
+    len_int: 43,
+    position: 3,
+    filename: 'c_4330c1a260e85caf5f0831.mp3',
+    loved: false,
+    disc: 1,
+    mime: 'audio/mpeg',
+    remote_path: null,
+    source: 'cloud',
+    size: 689890,
+    hash: '8ee533e31949bcfd74f89403ea59b127',
+    video_bitrate: null,
+    video_codec: null,
+    video_resolution: null,
+    video_fps: null,
+    video_aspect: null,
+    video_container: null,
+    audio_bitrate: '128',
+    audio_codec: null,
+    audio_sample_rate: '44100',
+    artworks: {
+      l: 'http://assets.development.audiobox.fm/a/0f921778fd88/l.jpg',
+      s: 'http://assets.development.audiobox.fm/a/0f921778fd88/s.jpg'
+    },
+    plays: 0
+  }
+ */
+
 
 module.exports = MediaFile;
 
 
-function MediaFile(connector){
+function MediaFile(config, connectors){
 
-  this.connector = connector;
+  Module.call( this, MediaFile.DECLARED_FIELDS, config, connectors );
 
-  Module.call( this, MediaFile.DECLARED_FIELDS );
   return this;
 }
+
 
 MediaFile.prototype.__proto__ = Module.prototype;
 
 
 MediaFile.prototype.__defineGetter__('streamUrl', function(){
-  return '/stream/' + this.filename;
-});
-
-MediaFile.prototype.__defineGetter__('fullStreamUrl', function(){
-  var req = this.connector.Request;
-
-  // forcing Request to simulate the download. In this way we are sure that server is correctly set
-  req.downloadFile = this.filename;
-
-  return req.getUrl( this.streamUrl );
+  var request = this.NodeConnector.Request;
+  return request.parseUrl( '/stream/' + this.filename );
 });
 
 
-/**
- * This method performs the download of the file
- * @param path String the full path name of the file which download into
- * @return Request the Request instance
- */
-MediaFile.prototype.download = function(path){
-  var req = this.connector.Request;
-  req.downloadFile = path;
-  return req.get( this.streamUrl );
-}
-
-
-
-MediaFile.TYPES = {
-  audio: "AudioFile"
-};
 
 MediaFile.DECLARED_FIELDS = Object.freeze({
-  type: '',
-  token: '',
-  artist: '',
-  album: '',
-  genre: '',
+
+  type: "",
+  token: "",
+  artist: "",
+  album: "",
+  genre: "",
   year: 0,
-  title: '',
-  length_str: '0:00',
-  length_int: 0,
+  title: "",
+  len_str: "",
+  len_int: 0,
   position: 0,
-  plays: 0,
-  filename: '',
-  mime: '',
-  md5: '',
+  filename: "",
   loved: false,
-  disc: 0
+  disc: 0,
+  mime: "",
+  remote_path: "",
+  source: "",
+  size: 0,
+  hash: "",
+  video_bitrate: 0,
+  video_codec: "",
+  video_resolution: "",
+  video_fps: 0,
+  video_aspect: 0,
+  video_container: "",
+  audio_bitrate: "",
+  audio_codec: "",
+  audio_sample_rate: "",
+  artworks: {
+    l: "",
+    s: ""
+  },
+  plays: 0
+
 });
-
-
 
 
 

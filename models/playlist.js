@@ -1,8 +1,8 @@
 var Utils = require("../configuration/utils");
 var Logger = require("logging");
 var Module = require("./module");
-var Collection = require("./collection");
 var MediaFiles = require("./media_files");
+var Playlists = require("./playlists");
 
 
 /**
@@ -22,24 +22,30 @@ var MediaFiles = require("./media_files");
   }
  */
 
-var END_POINT = "playlists";
-
 module.exports = Playlist;
 
 
-function Playlist(connector){
+function Playlist(config, connectors){
 
-  this.connector = connector;
+  Module.call( this, Playlist.DECLARED_FIELDS, config, connectors );
 
-  Module.call( this, Playlist.DECLARED_FIELDS );
   return this;
 }
 
 Playlist.prototype.__proto__ = Module.prototype;
 
 
+
+Playlist.__defineGetter__("END_POINT", function(value){
+  return Playlists.END_POINT;
+});
+
+Playlist.prototype.__defineGetter__("END_POINT", function(value){
+  return Playlist.END_POINT;
+});
+
+
 Playlist.DECLARED_FIELDS = Object.freeze({
-  "END_POINT": END_POINT,
 
   token: "",
   name: "",
@@ -68,7 +74,12 @@ Playlist.prototype.__defineSetter__("updated_at", function(value){
 
 Playlist.prototype.__defineGetter__("mediaFiles", function(){
   if ( !this._mediaFiles ){
-    this._mediaFiles = new Object();
+    this._mediaFiles = new MediaFiles(this.Configuration, this.Connectors);
+    this._mediaFiles.parent = this;
   }
   return this._mediaFiles;
 });
+
+
+
+

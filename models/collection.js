@@ -23,6 +23,12 @@ Collection.prototype = EventEmitter.prototype;
 Collection.prototype.__proto__ = Array.prototype;
 
 
+
+Collection.prototype.__defineGetter__("END_POINT", function(){
+  return this.module_name;
+});
+
+
 Collection.prototype.__defineSetter__('parent', function(parent){
   this._parent = parent;
 });
@@ -95,17 +101,17 @@ Collection.prototype.load = function(){
 
   var url = "";
   if ( this._parent ){
-    url = this._parent.END_POINT + "/" + this._parent.token;
-  } else {
-    url = this.module.DECLARED_FIELDS.END_POINT;
+    url = "/" + this._parent.END_POINT + "/" + this._parent.token;
   }
+
+  url += "/" + this.module_name;
+
   return request.get( url );
 };
 
 
 
 Collection.prototype._extractData = function(data){
-  console.info
   return data[ this.module_name ];
 };
 
@@ -123,7 +129,6 @@ Collection.prototype.find = function(value){
 
 Collection.prototype.findBy = function(field, value){
 
-  Logger("find by", field, value);
   for( var i = 0, l = this.length; i < l; i++ ){
     var item = this[ i ];
     if ( item[ field ] == value ){

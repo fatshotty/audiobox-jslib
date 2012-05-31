@@ -1,7 +1,6 @@
 var Module = require("./module");
 var Logger = require("logging").from(__filename);
-var Collection = require("./collection");
-
+var Playlists = require("./playlists");
 
 var Permissions = require("./permissions");
 
@@ -161,7 +160,7 @@ User.prototype.__defineGetter__("permissions", function(){
 
 User.prototype.__defineGetter__("playlists", function(){
   if( !this._playlists ){
-    this._playlists = new Collection(this.Configuration, this.Connectors, "playlists");
+    this._playlists = new Playlists(this.Configuration, this.Connectors);
   }
   return this._playlists;
 });
