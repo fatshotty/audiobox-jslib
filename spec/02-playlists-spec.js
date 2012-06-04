@@ -36,7 +36,7 @@ describe("Playlists", function(){
     playlists.load()
       .on("complete", asyncSpecDone)
       .on("success", function(){
-        expect(playlists.length).toEqual(9);
+        expect(playlists.length).toEqual(10);
         expect(playlists.isLoaded).toBe(true);
       })
       .on("error", function(){
@@ -50,7 +50,7 @@ describe("Playlists", function(){
 
     var playlists = AudioBox.User.playlists;
 
-    expect(playlists.length).toEqual(9);
+    expect(playlists.length).toEqual(10);
 
   });
 
@@ -63,7 +63,7 @@ describe("Playlists", function(){
     expect(playlists.drives).toBeDefined();
     expect(playlists.drives.length).toBeGreaterThan(1);
     expect(playlists.playlists).toBeDefined();
-    expect(playlists.playlists.length).toEqual(1);
+    expect(playlists.playlists.length).toEqual(2);
 
   });
 

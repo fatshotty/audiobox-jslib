@@ -30,8 +30,7 @@ describe("MediaFiles", function(){
     playlists.load()
       .on("complete", asyncSpecDone)
       .on("success", function(){
-        console.info(Playlists);
-        pl = playlists.findBy("type", Playlists.PlaylistTypes.YOUTUBE );
+        pl = playlists.findBy("type", Playlists.PlaylistTypes.CLOUD );
       })
       .on("error", function(){
         expect(false).toBe(true);
@@ -55,7 +54,7 @@ describe("MediaFiles", function(){
       .on("success", function(){
         expect(mediaFiles.length).toBeGreaterThan(3);
 
-        console.info( mediaFiles[0].streamUrl );
+        expect( mediaFiles[0].streamUrl.indexOf('?auth_token') ).toBeGreaterThan(0);
 
       })
       .on("error", function(){
@@ -65,6 +64,19 @@ describe("MediaFiles", function(){
 
   });
 
+
+  it('should contain lyrics',function(){
+    var mediaFiles = pl.mediaFiles;
+
+    var mediaFile = mediaFiles.find("c_20d9e104f58352ba0d8470");
+
+    mediaFile.lyrics( function( lyrics ){
+
+      expect( lyrics ).toBeDefined();
+      expect( lyrics.length ).toBeGreaterThan( 2 );
+    });
+
+  });
 
 
 

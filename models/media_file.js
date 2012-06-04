@@ -1,6 +1,7 @@
 var Utils = require("../configuration/utils");
 var Logger = require("logging");
 var Module = require("./module");
+var MediaFiles = require("./media_files");
 
 
 /**
@@ -57,7 +58,7 @@ MediaFile.prototype.__proto__ = Module.prototype;
 
 MediaFile.prototype.__defineGetter__('streamUrl', function(){
   var request = this.NodeConnector.Request;
-  return request.parseUrl( '/stream/' + this.filename );
+  return request.parseUrl( '/stream/' + this.filename, true );
 });
 
 
@@ -100,6 +101,29 @@ MediaFile.DECLARED_FIELDS = Object.freeze({
 });
 
 
+MediaFile.prototype._extractData = function(data) {
+  return data[ "media_file" ];
+};
 
 
+MediaFile.prototype.lyrics = function(callback){
+  var
+    self = this,
+    request = this.RailsConnector.Request;
+
+  // Set the 'extension' for the URL
+  request.requestFormat = this.Configuration.RequestFormats.JSON;
+
+  request.success = function(res, data){
+
+    data = JSON.parse(data);
+
+    var mediadata = self._extractData( data );
+
+    callback( mediadata.lyrics );
+
+  };
+
+  return request.get(  [ MediaFiles.END_POINT, this.token, "lyrics"].join("/") );
+}
 

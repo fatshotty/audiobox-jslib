@@ -42,3 +42,7 @@ MediaFiles.prototype.__defineGetter__("MediaTypes", function(){
 MediaFiles.prototype.__defineGetter__("Sources", function(){
   return MediaFiles.Sources;
 });
+
+MediaFiles.__defineGetter__("END_POINT", function(){
+  return "media_files";
+});

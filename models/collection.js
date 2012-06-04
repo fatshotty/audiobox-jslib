@@ -33,6 +33,10 @@ Collection.prototype.__defineSetter__('parent', function(parent){
   this._parent = parent;
 });
 
+Collection.prototype.__defineGetter__('parent', function(){
+  return this._parent;
+});
+
 
 Collection.prototype.__defineGetter__('isLoaded', function(){
   return this._isLoaded;

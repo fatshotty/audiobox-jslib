@@ -124,7 +124,7 @@ Request.prototype.__defineSetter__("error", function(fn){
         COMMON METHODS
   ============================ */
 
-Request.prototype.parseUrl = function(url){
+Request.prototype.parseUrl = function(url, authToken){
 
   var host = this.connector.Protocol + "://" + this.connector.Host + ":" + this.connector.Port + this.connector.ApiPath;
 
@@ -137,6 +137,10 @@ Request.prototype.parseUrl = function(url){
   }
 
   url = host + url + ( this.requestFormat ? "." + this.requestFormat : "" );
+
+  if ( authToken && this._options.data.auth_token ){
+    url += "?auth_token=" + this._options.data.auth_token;
+  }
 
   return url;
 };
