@@ -12,9 +12,13 @@ describe("Playlists", function(){
 
   AudioBox = new AudioBox( new Configuration() );
 
+  var loaded = false;
+
   beforeEach(function(){
-    asyncSpecWait();
-    AudioBox.User.load(Fixtures.User.emailOK, Fixtures.User.pwdOK).on("complete", asyncSpecDone);
+    if ( !loaded ) {
+      asyncSpecWait();
+      AudioBox.User.load(Fixtures.User.emailOK, Fixtures.User.pwdOK).on("complete", function(){ loaded = true; asyncSpecDone() });
+    }
   });
 
 

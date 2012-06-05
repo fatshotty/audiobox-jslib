@@ -1,6 +1,7 @@
 var Utils = require("../configuration/utils");
 var Logger = require("logging");
 var Collection = require("./collection");
+var EventEmitter = require("events").EventEmitter;
 
 module.exports = Module;
 
@@ -87,6 +88,8 @@ function Module(declared_fields, config, connectors){
 }
 
 
+
+Module.prototype = EventEmitter.prototype;
 
 
 Module.prototype._clear = function(){

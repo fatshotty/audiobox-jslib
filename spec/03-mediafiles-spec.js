@@ -11,11 +11,13 @@ describe("MediaFiles", function(){
 
   AudioBox = new AudioBox( new Configuration() );
 
-  var pl;
+  var pl, loaded = false;
 
   beforeEach(function(){
-    asyncSpecWait();
-    AudioBox.User.load(Fixtures.User.emailOK, Fixtures.User.pwdOK).on("complete", asyncSpecDone);
+    if ( !loaded ) {
+      asyncSpecWait();
+      AudioBox.User.load(Fixtures.User.emailOK, Fixtures.User.pwdOK).on("complete", function(){ loaded = true; asyncSpecDone() });
+    }
   });
 
 
@@ -61,20 +63,6 @@ describe("MediaFiles", function(){
         expect(false).toBe(true);
       });
 
-
-  });
-
-
-  it('should contain lyrics',function(){
-    var mediaFiles = pl.mediaFiles;
-
-    var mediaFile = mediaFiles.find("c_20d9e104f58352ba0d8470");
-
-    mediaFile.lyrics( function( lyrics ){
-
-      expect( lyrics ).toBeDefined();
-      expect( lyrics.length ).toBeGreaterThan( 2 );
-    });
 
   });
 

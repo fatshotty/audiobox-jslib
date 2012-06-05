@@ -120,10 +120,28 @@ MediaFile.prototype.lyrics = function(callback){
 
     var mediadata = self._extractData( data );
 
-    callback( mediadata.lyrics );
+    callback( mediadata.lyrics || "" );
 
   };
 
   return request.get(  [ MediaFiles.END_POINT, this.token, "lyrics"] );
 };
 
+
+MediaFile.prototype.scrobble = function(){
+  var
+    self = this,
+    request = this.RailsConnector.Request;
+
+  // Set the 'extension' for the URL
+  request.requestFormat = this.Configuration.RequestFormats.JSON;
+
+  request.success = function(res, data){
+
+    self.plays = self.plays + 1;
+
+    self.emit("changed", ['plays']);
+
+  };
+  return request.post(  [ MediaFiles.END_POINT, this.token, "scrobble" ] );
+};

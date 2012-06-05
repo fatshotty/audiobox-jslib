@@ -244,9 +244,27 @@ Request.prototype.get = function(url, params){
 
 
 
-Request.prototype.post = function(){
+Request.prototype.post = function(url, params){
+
+  if ( url instanceof Array ){
+    url = url.join( "/" );
+  }
+
+  this.url = url;
+  this.params = params
+
+  this.emit('beforeSend', this);
+
+  Object.keys(params||{}).forEach(function(k){
+    this._options.data[ k ] = params[ k ];
+  });
+
+  this._execute( 'post', this.parseUrl( this.url ), this._options );
+
+  return this;
 
 };
+
 
 Request.prototype.put = function(){
 
