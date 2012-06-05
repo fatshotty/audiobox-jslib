@@ -224,6 +224,10 @@ Request.prototype.abort = function(){
 /** REST method */
 Request.prototype.get = function(url, params){
 
+  if ( url instanceof Array ){
+    url = url.join( "/" );
+  }
+
   this.url = url;
   this.params = params
 
