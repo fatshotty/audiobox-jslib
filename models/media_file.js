@@ -125,5 +125,5 @@ MediaFile.prototype.lyrics = function(callback){
   };
 
   return request.get(  [ MediaFiles.END_POINT, this.token, "lyrics"] );
-}
+};
 
