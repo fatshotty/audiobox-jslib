@@ -44,6 +44,16 @@ Configuration.prototype.__defineGetter__("RequestFormats", function(){
 
 
 
+Configuration.prototype.__defineSetter__("DefaultErrorHandler", function(callback){
+  this._defaultErrorHandler = callback;
+});
+
+Configuration.prototype.__defineGetter__("DefaultErrorHandler", function(){
+  return this._defaultErrorHandler;
+});
+
+
+
 
 Configuration.prototype.__defineSetter__("ENV", function(env) {
 

@@ -193,6 +193,9 @@ Request.prototype._execute = function(method, url, options){
     .on("error", function(data, response){
 
       self.emit("error", response, data );
+
+      self.connector.emit("requestError", self, response, data);
+
       self.emit("complete", response, data );
 
     }).request.on('response', function(response){

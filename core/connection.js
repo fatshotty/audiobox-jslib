@@ -14,6 +14,13 @@ function Connection(config, server){
 
   this._properties = {};
 
+  var self = this;
+  this.on( "requestError", function(){
+    if ( config.DefaultErrorHandler ) {
+      config.DefaultErrorHandler.apply( self, arguments );
+    }
+  });
+
   return this;
 }
 
