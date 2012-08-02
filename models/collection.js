@@ -19,8 +19,9 @@ function Collection(config, connectors, module_name){
 
   return this;
 }
-Collection.prototype = EventEmitter.prototype;
-Collection.prototype.__proto__ = Array.prototype;
+
+require("util").inherits(Collection, EventEmitter);
+require("util").inherits(Collection, Array);
 
 
 

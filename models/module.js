@@ -89,7 +89,7 @@ function Module(declared_fields, config, connectors){
 
 
 
-Module.prototype = EventEmitter.prototype;
+require("util").inherits(Module, EventEmitter);
 
 
 Module.prototype._clear = function(){

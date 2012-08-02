@@ -25,7 +25,7 @@ function Connection(config, server){
 }
 
 
-Connection.prototype.__proto__ = EventEmitter.prototype;
+require("util").inherits(Connection, EventEmitter);
 
 
 Connection.prototype.set = function(key, value){

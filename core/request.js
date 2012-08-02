@@ -35,7 +35,7 @@ function Request(connection){
   return this;
 }
 
-Request.prototype.__proto__ = EventEmitter.prototype;
+require("util").inherits(Request, EventEmitter);
 
 
 /* Used for login */
