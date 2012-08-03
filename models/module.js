@@ -83,13 +83,15 @@ function Module(declared_fields, config, connectors){
     return Module.CLASS_TYPE;
   });
 
+  EventEmitter.call(this);
+
   return this;
 
 }
 
 
 
-require("util").inherits(Module, EventEmitter);
+Utils.merge(Module.prototype, EventEmitter.prototype);
 
 
 Module.prototype._clear = function(){

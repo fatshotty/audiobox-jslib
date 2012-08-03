@@ -8,7 +8,6 @@ module.exports = Collection;
 
 function Collection(config, connectors, module_name){
 
-
   this._configuration = config;
   this._connectors = connectors;
 
@@ -17,12 +16,15 @@ function Collection(config, connectors, module_name){
   this.module_name = module_name
   this.module = require("./" + module_name.singularize() );
 
+  EventEmitter.call(this);
+  Array.call(this);
+
   return this;
 }
 
-require("util").inherits(Collection, EventEmitter);
-require("util").inherits(Collection, Array);
 
+Collection.prototype.__proto__ = Array.prototype;
+Utils.merge(Collection.prototype, EventEmitter.prototype);
 
 
 Collection.prototype.__defineGetter__("END_POINT", function(){

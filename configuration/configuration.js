@@ -8,7 +8,7 @@ module.exports = Configuration;
 function Configuration(env) {
 
   if ( !env ){
-    env = "development";
+    env = "staging";
     Logger("no environment set, use development instead");
   }
 

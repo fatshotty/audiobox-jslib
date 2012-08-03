@@ -30,12 +30,12 @@ function Request(connection){
   this.on("beforeSend", function(){});
   this.on("progress", function(){});
 
-
+  EventEmitter.call(this);
 
   return this;
 }
 
-require("util").inherits(Request, EventEmitter);
+Utils.merge(Request.prototype, EventEmitter.prototype);
 
 
 /* Used for login */

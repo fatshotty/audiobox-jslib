@@ -1,6 +1,9 @@
 var AudioBox = require("../core/audiobox");
 var Configuration = require("../configuration/configuration");
-var Settings = require("../config/development");
+
+var ENV = process.env.NODE_ENV || "development";
+
+var Settings = require("../config/" + ENV );
 
 
 describe("AudioBox", function(){
@@ -11,7 +14,7 @@ describe("AudioBox", function(){
 
 
   it("should be correctly instanciated", function(){
-    AudioBox = new AudioBox( new Configuration() );
+    AudioBox = new AudioBox( new Configuration(ENV) );
     expect( AudioBox ).toBeDefined();
     expect( AudioBox.Configuration ).toBeDefined();
     expect( AudioBox.Connectors ).toBeDefined();

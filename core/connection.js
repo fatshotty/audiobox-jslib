@@ -21,11 +21,13 @@ function Connection(config, server){
     }
   });
 
+  EventEmitter.call(this);
+
   return this;
 }
 
 
-require("util").inherits(Connection, EventEmitter);
+Utils.merge(Connection.prototype, EventEmitter.prototype);
 
 
 Connection.prototype.set = function(key, value){

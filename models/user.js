@@ -124,7 +124,6 @@ User.prototype.load = function(username, password){
   request.requestFormat = this.Configuration.RequestFormats.JSON;
 
 
-
   request.beforeSend = function(req){
     Logger("set credentials");
     this.setCredentials(username, password);

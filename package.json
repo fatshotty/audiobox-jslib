@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "restler": "latest",
-    "logging": "latest"
+    "logging": "latest",
+    "oop": "latest"
   }
 }

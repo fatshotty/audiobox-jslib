@@ -19,11 +19,8 @@ describe("User", function(){
         asyncSpecDone()
       })
       .on("success", function(){
-        expect(user["email"]).toEqual( Fixtures.User.emailOK);
-        expect(user["username"]).toEqual( Fixtures.User.username );
+        expect(user.email).toEqual( Fixtures.User.emailOK);
         user_loaded = true;
-        // console.info(user);
-
       })
       .on("error", function(){
         user_loaded = false;
@@ -39,7 +36,6 @@ describe("User", function(){
 
     if ( user_loaded ){
       expect(user.email).toEqual( Fixtures.User.emailOK );
-      expect(user.username).toEqual( Fixtures.User.username );
       expect(user.auth_token.length).toEqual( 20 );
     }
 

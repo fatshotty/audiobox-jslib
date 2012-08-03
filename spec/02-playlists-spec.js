@@ -31,8 +31,8 @@ describe("Playlists", function(){
 
     var playlists = user.playlists;
 
-    expect( Array.prototype.isPrototypeOf(playlists) ).toBe(true);
-    expect( EventEmitter.prototype.isPrototypeOf(playlists) ).toBe(true);
+    expect( !!playlists.removeAllListeners ).toBe(true);
+    expect( !!playlists.splice ).toBe(true);
 
 
     asyncSpecWait();
@@ -40,7 +40,7 @@ describe("Playlists", function(){
     playlists.load()
       .on("complete", asyncSpecDone)
       .on("success", function(){
-        expect(playlists.length).toEqual(10);
+        expect(playlists.length > 0).toBe(true);
         expect(playlists.isLoaded).toBe(true);
       })
       .on("error", function(){
@@ -54,7 +54,7 @@ describe("Playlists", function(){
 
     var playlists = AudioBox.User.playlists;
 
-    expect(playlists.length).toEqual(10);
+    expect(playlists.length > 0).toBe( true );
 
   });
 
@@ -67,7 +67,6 @@ describe("Playlists", function(){
     expect(playlists.drives).toBeDefined();
     expect(playlists.drives.length).toBeGreaterThan(1);
     expect(playlists.playlists).toBeDefined();
-    expect(playlists.playlists.length).toEqual(2);
 
   });
 

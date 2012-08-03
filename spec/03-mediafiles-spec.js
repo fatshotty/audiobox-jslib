@@ -33,6 +33,7 @@ describe("MediaFiles", function(){
       .on("complete", asyncSpecDone)
       .on("success", function(){
         pl = playlists.findBy("type", Playlists.PlaylistTypes.CLOUD );
+        expect( pl ).toBeDefined();
       })
       .on("error", function(){
         expect(false).toBe(true);
@@ -45,8 +46,8 @@ describe("MediaFiles", function(){
 
     var mediaFiles = pl.mediaFiles;
 
-    expect( Array.prototype.isPrototypeOf(mediaFiles) ).toBe(true);
-    expect( EventEmitter.prototype.isPrototypeOf(mediaFiles) ).toBe(true);
+    expect( !!mediaFiles.splice ).toBe(true);
+    expect( !!mediaFiles.removeAllListeners ).toBe(true);
 
 
     asyncSpecWait();
