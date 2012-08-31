@@ -15,7 +15,7 @@ function Connection(config, server){
   this._properties = {};
 
   var self = this;
-  this.on( "requestError", function(){
+  this.on( "connectionError", function(){
     if ( config.DefaultErrorHandler ) {
       config.DefaultErrorHandler.apply( self, arguments );
     }

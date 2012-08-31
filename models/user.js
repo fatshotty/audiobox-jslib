@@ -133,7 +133,7 @@ User.prototype.load = function(username, password){
   // Request successfully completed
   request.success = function(res, data){
 
-    data = JSON.parse(data);
+    // data = JSON.parse(data);
     var userdata = self._extractData( data );
 
     self._parseResponse( userdata );

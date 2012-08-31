@@ -5,12 +5,14 @@ var EventEmitter = require("events").EventEmitter;
 var Logger = require("logging");
 var Playlists = require("../models/playlists");
 
+var ENV = process.env.NODE_ENV || "development";
 
+var Settings = require("../config/" + ENV );
 
 
 describe("Playlists", function(){
 
-  AudioBox = new AudioBox( new Configuration() );
+  AudioBox = new AudioBox( new Configuration(ENV) );
 
   var loaded = false;
 

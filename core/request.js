@@ -182,10 +182,25 @@ Request.prototype._execute = function(method, url, options){
         };
       }
 
+      var contentType = response.headers["content-type"];
+
+      if ( contentType.indexOf('json') ) {
+        data = JSON.parse(data);
+      }
+
       if ( response.statusCode >= 200 && response.statusCode < 300  ){
         self.emit("success", response, data );
       } else {
+
         self.emit("error", response, data );
+
+        if ( self.connector.listeners( "error-" + response.statusCode ).length > 0 ) {
+          self.connector.emit("error-" + response.statusCode, self, response, data);
+        }
+        if ( self.connector.listeners( "error" ).length > 0 ) {
+          self.connector.emit("error", self, response, data);
+        }
+
       }
 
       self.emit("complete", response, data );
@@ -194,7 +209,7 @@ Request.prototype._execute = function(method, url, options){
 
       self.emit("error", response, data );
 
-      self.connector.emit("requestError", self, response, data);
+      self.connector.emit("connectionError", self, response, data);
 
       self.emit("complete", response, data );
 

@@ -6,10 +6,14 @@ var Logger = require("logging");
 var Playlists = require("../models/playlists");
 
 
+var ENV = process.env.NODE_ENV || "development";
+
+var Settings = require("../config/" + ENV );
+
 
 describe("MediaFiles", function(){
 
-  AudioBox = new AudioBox( new Configuration() );
+  AudioBox = new AudioBox( new Configuration(ENV) );
 
   var pl, loaded = false;
 
@@ -42,7 +46,7 @@ describe("MediaFiles", function(){
   });
 
 
-  it('should contain Cloud media files',function(){
+  it('Cloud should contain mediafiles',function(){
 
     var mediaFiles = pl.mediaFiles;
 

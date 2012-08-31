@@ -2,10 +2,14 @@ var AudioBox = require("../core/audiobox");
 var Configuration = require("../configuration/configuration");
 var Fixtures = require("../test/fixtures");
 
+var ENV = process.env.NODE_ENV || "development";
+
+var Settings = require("../config/" + ENV );
+
 describe("User", function(){
   var user_loaded = false;
 
-  AudioBox = new AudioBox( new Configuration() );
+  AudioBox = new AudioBox( new Configuration(ENV) );
 
   it('should be correctly populated', function(){
 
