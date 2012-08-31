@@ -1,5 +1,5 @@
 var AudioBox = require("../core/audiobox");
-var Configuration = require("../configuration/Configuration");
+var Configuration = require("../configuration/configuration");
 var Fixtures = require("../test/fixtures");
 var EventEmitter = require("events").EventEmitter;
 var Logger = require("logging");
