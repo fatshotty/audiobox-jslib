@@ -127,6 +127,7 @@ Collection.prototype.find = function(value){
   for( var i = 0, l = this.length; i < l; i++ ){
     var item = this[ i ];
     if ( item.token == value ){
+      item.__index__ = i;
       return item;
     }
   }
@@ -139,6 +140,7 @@ Collection.prototype.findBy = function(field, value){
   for( var i = 0, l = this.length; i < l; i++ ){
     var item = this[ i ];
     if ( item[ field ] == value ){
+      item.__index__ = i;
       return item;
     }
   }
@@ -152,6 +154,7 @@ Collection.prototype.findAllBy = function(field, value){
   for( var i = 0, l = this.length; i < l; i++ ){
     var item = this[ i ];
     if ( item.token == value ){
+      item.__index__ = i;
       result.push( item );
     }
   }

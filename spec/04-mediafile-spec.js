@@ -106,7 +106,7 @@ describe("MediaFile", function(){
 
     var mediaFiles = pl.mediaFiles;
 
-    var mediaFile = mediaFiles.find("c_20d9e104f58352ba0d8470");
+    var mediaFile = mediaFiles[0];
 
     var old_playcount = mediaFile.plays, fired = false;
 
@@ -125,6 +125,11 @@ describe("MediaFile", function(){
       }).on("error", function(){
       })
 
+
+  });
+
+
+  it("should be correctly streamed", function() {
 
   });
 

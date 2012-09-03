@@ -184,7 +184,7 @@ Request.prototype._execute = function(method, url, options){
 
       var contentType = response.headers["content-type"];
 
-      if ( contentType.indexOf('json') ) {
+      if ( (contentType || "").indexOf('json') > -1 ) {
         data = JSON.parse(data);
       }
 
