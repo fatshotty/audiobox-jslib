@@ -21,6 +21,7 @@ function Request(connection){
 
   this.userAgent = this.connector.UserAgent;
   this.requestFormat = null;
+  this._multipart = false;
   this.followRedirects = false;
 
   // Empty Event interceptor to avoid EventEmitter errors
@@ -64,11 +65,11 @@ Request.prototype.addParam = function(key, value){
 Request.prototype.__defineSetter__("auth_token", function(auth){
   if ( auth ){
     // auth token is set
-    this.addParam( "auth_token", auth );
+    this._options.headers["x-auth-token"] = auth
   } else {
     // auth token is not in a valid format. Remove it from query string
     Logger("removed auth token");
-    delete this._options.data.auth_token;
+    delete this._options.headers["x-auth-token"];
   }
   return this;
 });
@@ -160,6 +161,7 @@ Request.prototype._execute = function(method, url, options){
   _options.headers = options.headers;
   _options.username = options.username;
   _options.password = options.password;
+  _options.multipart = this._multipart;
 
   Logger("executing request ", method.toUpperCase(), url);//, options);
 
@@ -275,7 +277,7 @@ Request.prototype.post = function(url, params){
 
   Object.keys(params||{}).forEach(function(k){
     this._options.data[ k ] = params[ k ];
-  });
+  }, this);
 
   this._execute( 'post', this.parseUrl( this.url ), this._options );
 
@@ -284,10 +286,50 @@ Request.prototype.post = function(url, params){
 };
 
 
-Request.prototype.put = function(){
+Request.prototype.fileUpload = function(path, mime){
+  this._multipart = true;
 
+  var size = FS.lstatSync(path).size
+
+  return Rest.file(path, null, size, null, mime);
 };
 
-Request.prototype.del = function(){
+
+Request.prototype.put = function(url, params){
+  if ( url instanceof Array ){
+    url = url.join( "/" );
+  }
+
+  this.url = url;
+  this.params = params
+
+  this.emit('beforeSend', this);
+
+  Object.keys(params||{}).forEach(function(k){
+    this._options.data[ k ] = params[ k ];
+  }, this);
+
+  this._execute( 'put', this.parseUrl( this.url ), this._options );
+
+  return this;
+};
+
+Request.prototype.del = function(url, params){
+  if ( url instanceof Array ){
+    url = url.join( "/" );
+  }
+
+  this.url = url;
+  this.params = params
+
+  this.emit('beforeSend', this);
+
+  Object.keys(params||{}).forEach(function(k){
+    this._options.data[ k ] = params[ k ];
+  }, this);
+
+  this._execute( 'delete', this.parseUrl( this.url ), this._options );
+
+  return this;
 
 };

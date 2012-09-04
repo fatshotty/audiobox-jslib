@@ -22,6 +22,14 @@ function AudioBox( config ) {
   return this;
 }
 
+AudioBox.prototype.__proto__ = EventEmitter.prototype;
+
+AudioBox.prototype.logout = function(){
+  if( this.listeners("logout").length > 0 ) {
+    this.emit("logout");
+  }
+  this._user = null;
+};
 
 
 AudioBox.prototype.__defineGetter__("Configuration", function(){

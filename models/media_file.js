@@ -145,3 +145,71 @@ MediaFile.prototype.scrobble = function(){
   };
   return request.post(  [ MediaFiles.END_POINT, this.token, "scrobble" ] );
 };
+
+
+
+
+MediaFile.prototype.upload = function(path) {
+  var
+    self = this,
+    request = this.NodeConnector.Request;
+
+  var file = request.fileUpload(path);
+
+  request.success = function(res, data){
+    data = self._extractData( data );
+    self._parseResponse( data );
+  };
+
+  request.error = function() {
+    console.info("error", arguments);
+  };
+
+  return request.post( "upload", {"files[]": file} );
+};
+
+
+MediaFile.prototype.uploadAsLocal = function(){
+
+};
+
+MediaFile.prototype.update = function(){
+  if ( ! this.token )
+    throw "media file has no token"
+
+  var
+    self = this,
+    request = this.RailsConnector.Request;
+
+  request.requestFormat = this.Configuration.RequestFormats.JSON;
+
+  return request.del([ MediaFiles.END_POINT, this.token ], this.queryParameters);
+};
+
+MediaFile.prototype.delete = function(){
+  if ( ! this.token )
+    throw "media file has no token"
+
+  var
+    self = this,
+    request = this.RailsConnector.Request;
+
+  request.requestFormat = this.Configuration.RequestFormats.JSON;
+
+  return request.del([ MediaFiles.END_POINT, "multidestroy" ], {"tokens[]": this.token});
+};
+
+
+MediaFile.prototype.__defineGetter__("queryParameters", function(){
+  var result = {};
+
+  var field_keys = Object.keys( MediaFile.DECLARED_FIELDS );
+  field_keys.forEach(function(key){
+    var value = MediaFile.DECLARED_FIELDS[ key ];
+    if ( typeof value == 'object' ) return;
+    result[ key ] = this[ key ];
+  }, this);
+
+  return result;
+
+});

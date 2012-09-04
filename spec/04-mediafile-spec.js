@@ -129,8 +129,33 @@ describe("MediaFile", function(){
   });
 
 
-  it("should be correctly streamed", function() {
+  it("returns a json of mediaFile infos", function() {
+    var mediaFiles = pl.mediaFiles;
 
+    var mediaFile = mediaFiles[0];
+
+    var queryParameters = mediaFile.queryParameters;
+
+    expect(queryParameters.title).toBeDefined();
+    expect(queryParameters.artist).toBeDefined();
+    expect(queryParameters.album).toBeDefined();
+    expect(queryParameters.genre).toBeDefined();
+
+    console.info( queryParameters );
+
+
+  });
+
+
+  it("should be uploaded correctly", function(){
+    var media = AudioBox.User.MediaFile;
+
+    asyncSpecWait();
+    var req = media.upload(Fixtures.MediaFile.fileUpload);
+    req.on("complete", function(){
+      console.info("complete");
+      asyncSpecDone();
+    });
   });
 
 

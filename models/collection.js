@@ -91,7 +91,6 @@ Collection.prototype.load = function(){
 
   request.success = function(res, data){
 
-
     // data = JSON.parse( data );
 
     var collection = self._extractData( data );

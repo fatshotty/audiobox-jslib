@@ -1,6 +1,7 @@
 var Module = require("./module");
 var Logger = require("logging").from(__filename);
 var Playlists = require("./playlists");
+var MediaFile = require("./media_file");
 
 var Permissions = require("./permissions");
 
@@ -102,6 +103,10 @@ User.DECLARED_FIELDS = Object.freeze({
 
 });
 
+
+User.prototype.__defineGetter__("MediaFile", function(){
+  return new MediaFile(this._configuration, this._connectors);
+});
 
 /**
  *  This methods performs a request to server and populates this instance
