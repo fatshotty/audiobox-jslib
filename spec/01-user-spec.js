@@ -50,7 +50,24 @@ describe("User", function(){
 
     expect(user.permissions).toBeDefined();
     expect(user.permissions.local).toBe(true);
-  })
+  });
+
+
+  it("hashes of Cloud", function(){
+
+    asyncSpecWait();
+    var req = AudioBox.User.mediaFilesMap("cloud", function(mediaFiles){
+      expect(mediaFiles.length > 0).toBe(true);
+      expect( mediaFiles[0].hash ).toBeDefined();
+    });
+
+    req.on("error", function(){
+      expect(true).toBe(false);
+    });
+
+    req.on("complete", asyncSpecDone);
+
+  });
 
 
 });

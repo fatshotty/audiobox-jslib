@@ -2,6 +2,7 @@ var Module = require("./module");
 var Logger = require("logging").from(__filename);
 var Playlists = require("./playlists");
 var MediaFile = require("./media_file");
+var MediaFiles = require("./media_files");
 
 var Permissions = require("./permissions");
 
@@ -105,7 +106,7 @@ User.DECLARED_FIELDS = Object.freeze({
 
 
 User.prototype.__defineGetter__("MediaFile", function(){
-  return new MediaFile(this._configuration, this._connectors);
+  return new MediaFile(this.Configuration, this.Connectors);
 });
 
 /**
@@ -147,6 +148,14 @@ User.prototype.load = function(username, password){
 
   return request.get( END_POINT );
 };
+
+
+
+User.prototype.mediaFilesMap = function(source, cb){
+  var mediaFiles = new MediaFiles(this.Configuration, this.Connectors);
+  return mediaFiles.loadMap(source, cb);
+};
+
 
 User.prototype.__defineGetter__("END_POINT", function(){
   return END_POINT;

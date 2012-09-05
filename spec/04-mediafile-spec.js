@@ -141,9 +141,6 @@ describe("MediaFile", function(){
     expect(queryParameters.album).toBeDefined();
     expect(queryParameters.genre).toBeDefined();
 
-    console.info( queryParameters );
-
-
   });
 
 

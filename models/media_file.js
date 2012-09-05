@@ -100,6 +100,18 @@ MediaFile.DECLARED_FIELDS = Object.freeze({
 
 });
 
+MediaFile.prototype.__defineGetter__("Sources", function(){
+  return {
+    Cloud: "cloud",
+    Local: "local",
+    Dropbox: "dropbox",
+    Youtube: "youtube",
+    Soundcloud: "soundcloud",
+    Gdrive: "gdrive",
+    Skydrive: "skydrive"
+  };
+});
+
 
 MediaFile.prototype._extractData = function(data) {
   return data[ "media_file" ];
@@ -115,8 +127,6 @@ MediaFile.prototype.lyrics = function(callback){
   request.requestFormat = this.Configuration.RequestFormats.JSON;
 
   request.success = function(res, data){
-
-    data = JSON.parse(data);
 
     var mediadata = self._extractData( data );
 
@@ -170,7 +180,7 @@ MediaFile.prototype.upload = function(path) {
 
 
 MediaFile.prototype.uploadAsLocal = function(){
-
+  throw new Error("not implements yet");
 };
 
 MediaFile.prototype.update = function(){

@@ -255,7 +255,7 @@ Request.prototype.get = function(url, params){
 
   Object.keys(params||{}).forEach(function(k){
     this._options.data[ k ] = params[ k ];
-  });
+  }, this);
 
   this._execute( 'get', this.parseUrl( this.url ), this._options );
 
