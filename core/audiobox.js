@@ -3,6 +3,7 @@ var Connection = require("./connection");
 var Configuration = require("../configuration/configuration");
 var Collection = require("../models/collection");
 var Logger = require("logging").from(__filename);
+var EventEmitter = require("events").EventEmitter;
 require("../configuration/inflector");
 var User = require("../models/user");
 
