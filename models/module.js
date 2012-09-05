@@ -13,6 +13,8 @@ function Module(declared_fields, config, connectors){
   this._configuration = config;
   this._connectors = connectors;
 
+  this._properties = {};
+
   /*
    * Adds all property as GET method
    */
@@ -103,6 +105,14 @@ Module.prototype._extractData = function(data){
   return data[ this.END_POINT ];
 };
 
+Module.prototype.getProperty = function(key){
+  return this._properties[ key ];
+};
+
+Module.prototype.setProperty = function(key, value){
+  this._properties[ key ] = value;
+  return this;
+};
 
 Module.prototype.__defineGetter__("Connectors", function(){
   return this._connectors;
