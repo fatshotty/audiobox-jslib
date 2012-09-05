@@ -14,6 +14,7 @@ function Module(declared_fields, config, connectors){
   this._connectors = connectors;
 
   this._properties = {};
+  this._loaded = false;
 
   /*
    * Adds all property as GET method
@@ -76,6 +77,7 @@ function Module(declared_fields, config, connectors){
 
     // Populate class with server response
 
+    this._loaded = true;
 
     return this;
   };
@@ -113,6 +115,10 @@ Module.prototype.setProperty = function(key, value){
   this._properties[ key ] = value;
   return this;
 };
+
+Module.prototype.__defineGetter__("isLoaded", function(){
+  return this._loaded;
+});
 
 Module.prototype.__defineGetter__("Connectors", function(){
   return this._connectors;

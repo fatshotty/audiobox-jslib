@@ -153,6 +153,10 @@ User.prototype.__defineGetter__("END_POINT", function(){
 });
 
 
+User.prototype.__defineGetter__("isLoggedIn", function(){
+  return this.isLoaded && this.email != null && this.auth_token != null;
+});
+
 
 User.prototype.__defineGetter__("permissions", function(){
   if( !this._permissions ){
