@@ -28,7 +28,6 @@ function Permissions(config, connectors) {
 Permissions.prototype.__proto__ = Module.prototype;
 
 Permissions.DECLARED_FIELDS = Object.freeze({
-
   local: false,
   cloud: false,
   dropbox: false,
@@ -37,5 +36,6 @@ Permissions.DECLARED_FIELDS = Object.freeze({
   soundcloud: false,
   youtube: false,
   box: false,
-  lastfm: false
+  lastfm: false,
+  twitchtv: false
 });
