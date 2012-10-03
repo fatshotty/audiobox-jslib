@@ -126,7 +126,6 @@ Request.prototype.__defineSetter__("error", function(fn){
   ============================ */
 
 Request.prototype.parseUrl = function(url, authToken){
-
   var host = this.connector.Protocol + "://" + this.connector.Host + ":" + this.connector.Port + this.connector.ApiPath;
 
   var url = url || this.url;
@@ -139,8 +138,8 @@ Request.prototype.parseUrl = function(url, authToken){
 
   url = host + url + ( this.requestFormat ? "." + this.requestFormat : "" );
 
-  if ( authToken && this._options.data.auth_token ){
-    url += "?auth_token=" + this._options.data.auth_token;
+  if ( authToken && this._options.headers["x-auth-token"] ){
+    url += "?auth_token=" + this._options.headers["x-auth-token"];
   }
 
   return url;

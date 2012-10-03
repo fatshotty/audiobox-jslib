@@ -2,9 +2,6 @@ var Module = require("./module");
 var Logger = require("logging").from(__filename);
 
 /**
-  player: true,
-  local: true,
-  cloud: true,
   dropbox: true,
   gdrive: true,
   skydrive: true,
@@ -18,21 +15,18 @@ var Logger = require("logging").from(__filename);
  */
 
 
-module.exports = Permissions;
+module.exports = ExternalTokens;
 
 
-function Permissions(config, connectors) {
+function ExternalTokens(config, connectors) {
   var self = this;
-  Module.call( this, Permissions.DECLARED_FIELDS, config, connectors );
+  Module.call( this, ExternalTokens.DECLARED_FIELDS, config, connectors );
 }
 
 
-Permissions.prototype.__proto__ = Module.prototype;
+ExternalTokens.prototype.__proto__ = Module.prototype;
 
-Permissions.DECLARED_FIELDS = Object.freeze({
-  player: false,
-  local: false,
-  cloud: false,
+ExternalTokens.DECLARED_FIELDS = Object.freeze({
   dropbox: false,
   gdrive: false,
   skydrive: false,

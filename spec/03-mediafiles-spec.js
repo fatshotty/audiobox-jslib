@@ -60,9 +60,6 @@ describe("MediaFiles", function(){
       .on("complete", asyncSpecDone)
       .on("success", function(){
         expect(mediaFiles.length).toBeGreaterThan(3);
-
-        expect( mediaFiles[0].streamUrl.indexOf('?auth_token') ).toBeGreaterThan(0);
-
       })
       .on("error", function(){
         expect(false).toBe(true);

@@ -57,14 +57,13 @@ describe("MediaFile", function(){
 
     var mediaFiles = pl.mediaFiles;
 
-    var mediaFile = mediaFiles.find("c_20d9e104f58352ba0d8470");
+    var mediaFile = mediaFiles.find( Fixtures.MediaFile.token );
 
     asyncSpecWait();
 
     mediaFile.lyrics( function( lyrics ){
 
       expect( lyrics ).toBeDefined();
-      expect( lyrics.length ).toBeGreaterThan( 2 );
 
       asyncSpecDone();
     });
@@ -76,7 +75,7 @@ describe("MediaFile", function(){
   it('should scrobble and playcount should increment',function(){
     var mediaFiles = pl.mediaFiles;
 
-    var mediaFile = mediaFiles.find("c_20d9e104f58352ba0d8470");
+    var mediaFile = mediaFiles.find( Fixtures.MediaFile.token );
 
     var old_playcount = mediaFile.plays;
 
@@ -106,7 +105,10 @@ describe("MediaFile", function(){
 
     var mediaFiles = pl.mediaFiles;
 
-    var mediaFile = mediaFiles[0];
+    var mediaFile = mediaFiles.find( Fixtures.MediaFile.token );
+
+
+    expect( mediaFile.streamUrl.indexOf("?auth_token") ).toBeGreaterThan(0);
 
     var old_playcount = mediaFile.plays, fired = false;
 
@@ -144,7 +146,7 @@ describe("MediaFile", function(){
   });
 
 
-  it("should be uploaded correctly", function(){
+  it("should be correctly uploaded", function(){
     var media = AudioBox.User.MediaFile;
 
     asyncSpecWait();

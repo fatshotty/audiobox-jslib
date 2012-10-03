@@ -5,40 +5,73 @@ var MediaFile = require("./media_file");
 var MediaFiles = require("./media_files");
 
 var Permissions = require("./permissions");
+var AccountStats = require("./account_stats");
+var ExternalTokens = require("./external_tokens");
+var Preferences = require("./preferences");
+
 
 /**
-  { user:
-    { username: 'fatshotty',
-      real_name: null,
-      email: 'fat@fatshotty.net',
-      auth_token: '',
-      media_files_count: 139,
-      playlists_count: 11,
-      total_play_count: 93,
-      country: null,
-      time_zone: 'UTC',
-      data_served_this_month: 435514012,
-      data_served_overall: 435514012,
-      cloud_data_stored_overall: 116232530,
-      cloud_data_stored_this_month: 116232530,
-      local_data_stored_overall: 79995131,
-      local_data_stored_this_month: 151896311,
-      dropbox_data_stored_overall: 69145176,
-      dropbox_data_stored_this_month: 69145176,
-      accepted_extensions: 'aac,mp3,mp2,m4a,m4b,m4r,3gp,ogg,oga,flac,spx,wma,rm,ram,wav,mpc,mp+,mpp,aiff,aif,aifc,tta,mp4,mpg,mpeg,m4v,mov,avi,flv,webm,ogv',
-      accepted_formats: 'audio/aac,audio/mpeg,audio/mp4,audio/ogg,audio/flac,audio/speex,audio/x-ms-wma,audio/x-pn-realaudio,audio/vnd.wave,audio/x-musepack,audio/x-aiff,audio/x-tta,video/mp4,video/mpeg,video/x-m4v,video/quicktime,video/x-msvideo,video/x-flv,video/webm,video/ogg',
-      permissions: {
-        local: true,
-        cloud: true,
-        dropbox: true,
-        gdrive: true,
-        skydrive: true,
-        soundcloud: false,
-        youtube: true,
-        box: true,
-        lastfm: false
-      }
-    }
+  {
+    real_name: '',
+    email: 'fat@fatshotty.net',
+    auth_token: 'Jgs...',
+    media_files_count: 325,
+    playlists_count: 9,
+    total_play_count: 266,
+    country: null,
+    time_zone: 'UTC',
+    accepted_extensions: 'mp3,m4a,m4b,m4r,mp4,flv,webm',
+    accepted_formats: 'audio/mpeg,audio/mp4,video/mp4,video/x-flv,video/webm',
+    comet_channel: 'private-de103b403',
+    subscription_state: 'active'
+    permissions:
+      player: true,
+      local: true,
+      cloud: true,
+      dropbox: true,
+      gdrive: true,
+      skydrive: true,
+      soundcloud: true,
+      youtube: true,
+      box: true,
+      lastfm: true,
+      twitchtv: true,
+      facebook: true,
+      twitter: true
+    external_tokens:
+      dropbox: true,
+      gdrive: true,
+      skydrive: true,
+      soundcloud: true,
+      youtube: true,
+      box: true,
+      lastfm: true,
+      twitchtv: true,
+      facebook: true,
+      twitter: true
+    stats:
+      data_served_this_month: 1493165284,
+      data_served_overall: 1493165284,
+      cloud_data_stored_overall: 1488200097,
+      cloud_data_stored_this_month: 1488200097,
+      local_data_stored_overall: 0,
+      local_data_stored_this_month: 3770908450,
+      dropbox_data_stored_overall: 0,
+      dropbox_data_stored_this_month: 0,
+      gdrive_data_stored_this_month: 38403869,
+      gdrive_data_stored_overall: 38403869,
+      skydrive_data_stored_this_month: 38403869,
+      skydrive_data_stored_overall: 38403869,
+      box_data_stored_this_month: 19324002,
+      box_data_stored_overall: 19324002,
+      soundcloud_data_stored_this_month: 0,
+      soundcloud_data_stored_overall: 0
+    preferences:
+      accept_emails: '1',
+      autoplay: false,
+      volume_level: 85,
+      color: 'shadows-grey',
+      top_bar_bg: 'space'
   }
  */
 
@@ -174,6 +207,29 @@ User.prototype.__defineGetter__("permissions", function(){
   return this._permissions;
 });
 
+User.prototype.__defineGetter__("external_tokens", function(){
+  if( !this._external_tokens ){
+    this._external_tokens = new ExternalTokens(this.Configuration, this.Connectors);
+  }
+  return this._external_tokens;
+});
+
+User.prototype.__defineGetter__("account_stats", function(){
+  if( !this._account_stats ){
+    this._account_stats = new AccountStats(this.Configuration, this.Connectors);
+  }
+  return this._account_stats;
+});
+
+User.prototype.__defineGetter__("preferences", function(){
+  if( !this._preferences ){
+    this._preferences = new Preferences(this.Configuration, this.Connectors);
+  }
+  return this._preferences;
+});
+
+
+
 
 User.prototype.__defineGetter__("playlists", function(){
   if( !this._playlists ){
@@ -186,6 +242,12 @@ User.prototype.__defineGetter__("playlists", function(){
 User.prototype._clear = function() {
   Module.prototype._clear.call(this);
   this._permissions && this._permissions._clear();
+  this._external_tokens && this._external_tokens._clear();
+  this._account_stats && this._account_stats._clear();
+  this._preferences && this._preferences._clear();
   this._permissions = null;
+  this._external_tokens = null;
+  this._account_stats = null;
+  this._preferences = null;
 };
 

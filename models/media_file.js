@@ -5,40 +5,36 @@ var MediaFiles = require("./media_files");
 
 
 /**
-  media_file: {
-    type: 'AudioFile',
-    token: 'c_4330c1a260e85caf5f0831',
-    artist: 'Anto',
-    album: 'Anto selection',
-    genre: 'Raggae',
-    year: 0,
-    title: 'Traccia 3',
-    len_str: '0:43',
-    len_int: 43,
-    position: 3,
-    filename: 'c_4330c1a260e85caf5f0831.mp3',
-    loved: false,
-    disc: 1,
-    mime: 'audio/mpeg',
-    remote_path: null,
-    source: 'cloud',
-    size: 689890,
-    hash: '8ee533e31949bcfd74f89403ea59b127',
-    video_bitrate: null,
-    video_codec: null,
-    video_resolution: null,
-    video_fps: null,
-    video_aspect: null,
-    video_container: null,
-    audio_bitrate: '128',
-    audio_codec: null,
-    audio_sample_rate: '44100',
-    artworks: {
-      l: 'http://assets.development.audiobox.fm/a/0f921778fd88/l.jpg',
-      s: 'http://assets.development.audiobox.fm/a/0f921778fd88/s.jpg'
-    },
-    plays: 0
-  }
+  type: 'AudioFile',
+  token: 'c_00c55d...86d0c6',
+  artist: 'Aban',
+  album: 'La Bella Italia',
+  genre: 'Hip Hop',
+  release_year: 2008,
+  title: 'Intro',
+  len_str: '2:13',
+  len_int: 133,
+  position: 1,
+  filename: 'c_00c55dd40....86d0c6.mp3',
+  loved: false,
+  disc_number: 1,
+  mime: 'audio/mpeg',
+  remote_path: null,
+  source: 'cloud',
+  share_token: '710db390a8.....5a78c5a94e220f13',
+  size: 2175615,
+  hash: 'b07b4b631588.....0f1e09b4488',
+  video_bitrate: null,
+  video_codec: null,
+  video_resolution: null,
+  video_fps: null,
+  video_aspect: null,
+  video_container: null,
+  audio_bitrate: '128',
+  audio_codec: null,
+  audio_sample_rate: '44100',
+  artwork: '//s3.amazonaws.com/m.audiobox.fm/a/000/000/954/17c02bb5fb52.jpg',
+  plays: 3
  */
 
 
@@ -64,52 +60,40 @@ MediaFile.prototype.__defineGetter__('streamUrl', function(){
 
 
 MediaFile.DECLARED_FIELDS = Object.freeze({
-
-  type: "",
-  token: "",
-  artist: "",
-  album: "",
-  genre: "",
-  year: 0,
-  title: "",
-  len_str: "",
-  len_int: 0,
-  position: 0,
-  filename: "",
-  loved: false,
-  disc: 0,
-  mime: "",
-  remote_path: "",
-  source: "",
-  size: 0,
-  hash: "",
-  video_bitrate: 0,
-  video_codec: "",
-  video_resolution: "",
-  video_fps: 0,
-  video_aspect: 0,
-  video_container: "",
-  audio_bitrate: "",
-  audio_codec: "",
-  audio_sample_rate: "",
-  artworks: {
-    l: "",
-    s: ""
-  },
+  type:  '',
+  token:  '',
+  artist:  '',
+  album:  '',
+  genre:  '',
+  release_year:  0,
+  title:  '',
+  len_str:  '',
+  len_int:  0,
+  position:  0,
+  filename:  '',
+  loved:  false,
+  disc_number:  0,
+  mime:  '',
+  remote_path:  null,
+  source:  '',
+  share_token:  '',
+  size:  0,
+  hash:  '',
+  video_bitrate:  null,
+  video_codec:  null,
+  video_resolution:  null,
+  video_fps:  null,
+  video_aspect:  null,
+  video_container:  null,
+  audio_bitrate:  '',
+  audio_codec:  null,
+  audio_sample_rate:  '',
+  artwork:  '',
   plays: 0
-
 });
 
 MediaFile.prototype.__defineGetter__("Sources", function(){
-  return {
-    Cloud: "cloud",
-    Local: "local",
-    Dropbox: "dropbox",
-    Youtube: "youtube",
-    Soundcloud: "soundcloud",
-    Gdrive: "gdrive",
-    Skydrive: "skydrive"
-  };
+  return MediaFiles.Sources;
 });
 
 
@@ -171,11 +155,7 @@ MediaFile.prototype.upload = function(path) {
     self._parseResponse( data );
   };
 
-  request.error = function() {
-    console.info("error", arguments);
-  };
-
-  return request.post( "upload", {"files[]": file} );
+  return request.post( "upload", {"files[]": file });
 };
 
 
