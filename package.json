@@ -5,6 +5,7 @@
   "dependencies": {
     "restler": "latest",
     "logging": "latest",
-    "oop": "latest"
+    "oop": "latest",
+    "ws": "latest"
   }
 }
