@@ -173,7 +173,7 @@ MediaFile.prototype.update = function(){
 
   request.requestFormat = this.Configuration.RequestFormats.JSON;
 
-  return request.del([ MediaFiles.END_POINT, this.token ], this.queryParameters);
+  return request.put([ MediaFiles.END_POINT, this.token ], this.queryParameters);
 };
 
 MediaFile.prototype.delete = function(){
