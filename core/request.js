@@ -89,6 +89,10 @@ Request.prototype.__defineSetter__("auth_token", function(auth){
   return this;
 });
 
+Request.prototype.__defineGetter__('Configuration', function(){
+  return this.connector.Configuration;
+});
+
 
 // UserAgent header
 Request.prototype.__defineSetter__('userAgent', function(value){
@@ -178,6 +182,12 @@ Request.prototype._execute = function(method, url, options){
   _options.multipart = this._multipart;
 
 
+  var eCode = "";
+  if ( method.toUpperCase() == "GET" ){
+    eCode = self.Configuration.CacheManager.setRequest(this, url, options);
+  }
+
+
   Logger("executing request ", method.toUpperCase(), url);//, options);
 
   var file = null;
@@ -206,10 +216,22 @@ Request.prototype._execute = function(method, url, options){
       }
 
       if ( response.statusCode >= 200 && response.statusCode < 300  ){
+
+        if ( method.toUpperCase() == "GET" ){
+          self.Configuration.CacheManager.setBody(self, data, response);
+        }
+
         self.emit("success", response, data );
 
       } else if ( response.statusCode == 304 ) {
         // Cache management
+        data = self.Configuration.CacheManager.getBody(self, ecode);
+        if ( typeof data == "string" ) {
+          data = JSON.parse(data);
+        }
+
+        self.emit("success", response, data );
+
 
       } else {
 

@@ -1,5 +1,6 @@
 var Utils = require("./utils");
 var Logger = require("logging").from(__filename);
+var CacheManager = require("./cachemanager");
 
 
 module.exports = Configuration;
@@ -53,6 +54,16 @@ Configuration.prototype.__defineGetter__("DefaultErrorHandler", function(){
 });
 
 
+
+Configuration.prototype.__defineGetter__("CacheManager", function(){
+  if ( !this._cacheManager ) {
+    this._cacheManager = new CacheManager(this);
+  }
+  return this._cacheManager;
+});
+Configuration.prototype.__defineSetter__("CacheManager", function(cacheManager){
+  this._cacheManager = cacheManager;
+})
 
 
 Configuration.prototype.__defineSetter__("ENV", function(env) {

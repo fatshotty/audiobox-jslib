@@ -90,7 +90,7 @@ function User(config, connectors){
 
 
   var addAuthToken = function(request) {
-    if ( !this._disableAuth ){
+    if ( this._disableAuth ){
       return Logger("disableAuth for authToken");
     }
     if ( self.auth_token ){
@@ -172,7 +172,7 @@ User.prototype.load = function(username, password){
 
 
   request.beforeSend = function(req){
-    if ( !this._disableAuth ){
+    if ( this._disableAuth ){
       return Logger("disableAuth for email e password");
     }
     Logger("set credentials");
