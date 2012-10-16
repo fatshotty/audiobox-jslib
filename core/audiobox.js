@@ -49,6 +49,10 @@ AudioBox.prototype.__defineGetter__("User", function(){
   return this._user;
 });
 
+AudioBox.prototype.__defineSetter__("disableAuth", function(value){
+  this.User.disableAuth = value;
+});
+
 
 AudioBox.prototype.__defineGetter__("RailsConnector", function() {
   return this._connectors[ Configuration.SERVERS.RAILS ];

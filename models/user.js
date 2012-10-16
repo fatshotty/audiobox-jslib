@@ -90,6 +90,9 @@ function User(config, connectors){
 
 
   var addAuthToken = function(request) {
+    if ( !this._disableAuth ){
+      return Logger("disableAuth for authToken");
+    }
     if ( self.auth_token ){
       Logger("setting auth_token", self.auth_token);
       request.auth_token = self.auth_token;
@@ -142,6 +145,11 @@ User.prototype.__defineGetter__("MediaFile", function(){
   return new MediaFile(this.Configuration, this.Connectors);
 });
 
+
+User.prototype.__defineSetter__("disableAuth", function(value){
+  this._disableAuth = value;
+});
+
 /**
  *  This methods performs a request to server and populates this instance
  *  @param username String the username associated with this user
@@ -164,6 +172,9 @@ User.prototype.load = function(username, password){
 
 
   request.beforeSend = function(req){
+    if ( !this._disableAuth ){
+      return Logger("disableAuth for email e password");
+    }
     Logger("set credentials");
     this.setCredentials(username, password);
   };

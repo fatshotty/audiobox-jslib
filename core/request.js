@@ -16,6 +16,7 @@ module.exports = Request;
 
 function Request(connection){
   this.connector = connection;
+  this._configuration = connection.Configuration
 
   this._options = {headers:{}, data:{}};
 
@@ -46,6 +47,20 @@ Request.prototype.setCredentials = function(username, password){
   return this;
 };
 
+
+Request.prototype.setRequestHeader = function(key, value){
+  this._options.headers[ key ] = value;
+  return this;
+};
+
+Request.prototype.setRequestHeaders = function(obj){
+  for ( key in obj ) {
+    if ( obj.hasOwnProperty(key) ) {
+      this.setRequestHeader(key, obj[ key ]);
+    }
+  }
+  return this;
+};
 
 /* Adds query parameters */
 Request.prototype.addParam = function(key, value){
@@ -162,6 +177,7 @@ Request.prototype._execute = function(method, url, options){
   _options.password = options.password;
   _options.multipart = this._multipart;
 
+
   Logger("executing request ", method.toUpperCase(), url);//, options);
 
   var file = null;
@@ -191,6 +207,10 @@ Request.prototype._execute = function(method, url, options){
 
       if ( response.statusCode >= 200 && response.statusCode < 300  ){
         self.emit("success", response, data );
+
+      } else if ( response.statusCode == 304 ) {
+        // Cache management
+
       } else {
 
         self.emit("error", response, data );
