@@ -90,12 +90,12 @@ function User(config, connectors){
 
 
   var addAuthToken = function(request) {
-    if ( this._disableAuth ){
+    if ( self._disableAuth ){
       return Logger("disableAuth for authToken");
     }
     if ( self.auth_token ){
       Logger("setting auth_token", self.auth_token);
-      request.auth_token = self.auth_token;
+      request.setAuthentication( "auth_token", "x-auth-token", self.auth_token, true );
     }
   };
 
@@ -172,7 +172,7 @@ User.prototype.load = function(username, password){
 
 
   request.beforeSend = function(req){
-    if ( this._disableAuth ){
+    if ( self._disableAuth ){
       return Logger("disableAuth for email e password");
     }
     Logger("set credentials");

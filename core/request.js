@@ -20,6 +20,8 @@ function Request(connection){
 
   this._options = {headers:{}, data:{}};
 
+  this.setAuthentication();
+
   this.userAgent = this.connector.UserAgent;
   this.requestFormat = null;
   this._multipart = false;
@@ -75,19 +77,29 @@ Request.prototype.addParam = function(key, value){
             GET/SET methods
    ================================= */
 
-
 /* Used for each other requests */
-Request.prototype.__defineSetter__("auth_token", function(auth){
-  if ( auth ){
+Request.prototype.setAuthentication = function(qname, hname, value, isheader, prefix){
+  if ( (qname || hname ) && value ) {
     // auth token is set
-    this._options.headers["x-auth-token"] = auth
+    this._authentication = {
+      qname: qname,
+      hname: hname,
+      value: value,
+      isHeader: !!isheader,
+      prefix: prefix || ""
+    };
   } else {
-    // auth token is not in a valid format. Remove it from query string
-    Logger("removed auth token");
-    delete this._options.headers["x-auth-token"];
+    // Authentication is null, so reset it
+    this._authentication = {
+      qname: "",
+      hname: "",
+      value: "",
+      isHeader: false,
+      prefix: ""
+    };
   }
   return this;
-});
+};
 
 Request.prototype.__defineGetter__('Configuration', function(){
   return this.connector.Configuration;
@@ -144,7 +156,7 @@ Request.prototype.__defineSetter__("error", function(fn){
         COMMON METHODS
   ============================ */
 
-Request.prototype.parseUrl = function(url, authToken){
+Request.prototype.parseUrl = function(url, authentication){
   var host = this.connector.Protocol + "://" + this.connector.Host + ":" + this.connector.Port + this.connector.ApiPath;
 
   var url = url || this.url;
@@ -157,8 +169,8 @@ Request.prototype.parseUrl = function(url, authToken){
 
   url = host + url + ( this.requestFormat ? "." + this.requestFormat : "" );
 
-  if ( authToken && this._options.headers["x-auth-token"] ){
-    url += "?auth_token=" + this._options.headers["x-auth-token"];
+  if ( authentication && this._authentication.qname && this._authentication.value ){
+    url += "?" + this._authentication.qname + "=" + this._authentication.value;
   }
 
   return url;
@@ -187,6 +199,10 @@ Request.prototype._execute = function(method, url, options){
     eCode = self.Configuration.CacheManager.setRequest(this, url, options);
   }
 
+
+  if ( this._authentication.name && this._authentication.value && this._authentication.isHeader ) {
+    _options.headers[ this._authentication.hname ] = this._authentication.prefix + this._authentication.value
+  }
 
   Logger("executing request ", method.toUpperCase(), url);//, options);
 
@@ -218,14 +234,14 @@ Request.prototype._execute = function(method, url, options){
       if ( response.statusCode >= 200 && response.statusCode < 300  ){
 
         if ( method.toUpperCase() == "GET" ){
-          self.Configuration.CacheManager.setBody(self, data, response);
+          self.Configuration.CacheManager.setBody(self, data, response, eCode);
         }
 
         self.emit("success", response, data );
 
       } else if ( response.statusCode == 304 ) {
         // Cache management
-        data = self.Configuration.CacheManager.getBody(self, ecode);
+        data = self.Configuration.CacheManager.getBody(self, eCode);
         if ( typeof data == "string" ) {
           data = JSON.parse(data);
         }

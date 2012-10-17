@@ -16,7 +16,7 @@ CacheManager.prototype.setRequest = function(request, url, options){
   return "";
 };
 
-CacheManager.prototype.setBody = function(request, data, response){
+CacheManager.prototype.setBody = function(request, data, response, ecode){
 
 };
 
