@@ -117,6 +117,21 @@ Collection.prototype.load = function(){
 
 
 
+Collection.prototype._populate = function(collection){
+  this.emit("populateStart", this);
+
+  collection.forEach(function(item){
+    var module = new this.module( this.Configuration, this.Connectors );
+    module._parseResponse( item );
+    this.push( module );
+  }, this);
+  this._isLoaded = true;
+
+  this.emit("populateEnd", this);
+};
+
+
+
 Collection.prototype._extractData = function(data){
   return data[ this.module_name ];
 };
