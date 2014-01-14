@@ -8,6 +8,7 @@ var Permissions = require("./permissions");
 var AccountStats = require("./account_stats");
 var ExternalTokens = require("./external_tokens");
 var Preferences = require("./preferences");
+var Plans = require("./plans");
 
 
 /**
@@ -118,7 +119,9 @@ User.prototype.__proto__ = Module.prototype;
 
 User.DECLARED_FIELDS = Object.freeze({
 
+  id: 0,
   username: "",
+  plan: "",
   real_name: "",
   email: "",
   auth_token: "",
@@ -136,7 +139,10 @@ User.DECLARED_FIELDS = Object.freeze({
   dropbox_data_stored_overall: 0,
   dropbox_data_stored_this_month: 0,
   accepted_extensions: "",
-  accepted_formats: ""
+  accepted_formats: "",
+  offline_playlist: "",
+  created_at: "",
+  updated_at: ""
 
 });
 
@@ -240,6 +246,12 @@ User.prototype.__defineGetter__("preferences", function(){
 });
 
 
+User.prototype.__defineGetter__("plans", function(){
+  if( !this._plans ){
+    this._plans = new Preferences(this.Configuration, this.Connectors);
+  }
+  return this._plans;
+});
 
 
 User.prototype.__defineGetter__("playlists", function(){
@@ -260,5 +272,6 @@ User.prototype._clear = function() {
   this._external_tokens = null;
   this._account_stats = null;
   this._preferences = null;
+  this._plans = null;
 };
 
