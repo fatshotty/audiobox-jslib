@@ -4,11 +4,7 @@ var Rest = require("restler");
 var Logger = require("logging").from(__filename);
 var FS = require('fs');
 
-
-
-
 module.exports = Request;
-
 
 /**
  *  Request declaration
@@ -157,14 +153,14 @@ Request.prototype.__defineSetter__("error", function(fn){
   ============================ */
 
 Request.prototype.parseUrl = function(url, authentication){
-  var host = this.connector.Protocol + "://" + this.connector.Host + ":" + this.connector.Port + this.connector.ApiPath;
+  var host = this.connector.Protocol + "://" + this.connector.Host + ":" + this.connector.Port; // + this.connector.ApiPath;
 
   var url = url || this.url;
 
   if ( !url ) return "";
 
-  if ( url.indexOf("/") != 0 ){
-    url = "/" + url
+  if ( url.indexOf( this.connector.URISeparator ) != 0 ){
+    url = this.connector.URISeparator + url;
   }
 
   url = host + url + ( this.requestFormat ? "." + this.requestFormat : "" );

@@ -2,11 +2,16 @@ var Module = require("./module");
 var Logger = require("logging").from(__filename);
 
 /**
-  accept_emails: '1',
+  color: 'audiobox-fm-blue',
+  repeat: false,
+  shuffle: false,
   autoplay: false,
-  volume_level: 85,
-  color: 'shadows-grey',
-  top_bar_bg: 'space'
+  prebuffer: true,
+  js_demuxer: false,
+  top_bar_bg: 'default',
+  volume_level: '0',
+  accept_emails: true,
+  hide_tooltips: false
  */
 
 
@@ -22,9 +27,18 @@ function Preferences(config, connectors) {
 Preferences.prototype.__proto__ = Module.prototype;
 
 Preferences.DECLARED_FIELDS = Object.freeze({
-  accept_emails: false,
+  color: 'audiobox-fm-blue',
+  repeat: false,
+  shuffle: false,
   autoplay: false,
-  volume_level: 50,
-  color: "",
-  top_bar_bg: "space"
+  prebuffer: false,
+  js_demuxer: false,
+  top_bar_bg: 'default',
+  volume_level: '0',
+  accept_emails: false,
+  hide_tooltips: false
 });
+
+Preferences.prototype._extractData = function(data){
+  return data.preferences;
+};

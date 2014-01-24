@@ -1,7 +1,12 @@
+var Configuration = require("../configuration/configuration");
+var Connection = require("../core/connection");
 var Collection = require("./collection");
 
 
 module.exports = MediaFiles;
+
+const END_POINT = Configuration.APIPath + Connection.URISeparator + "media_files";
+
 
 function MediaFiles(config, connectors){
   Collection.call(this, config, connectors, "media_files");
@@ -81,5 +86,5 @@ MediaFiles.prototype.__defineGetter__("Sources", function(){
 });
 
 MediaFiles.__defineGetter__("END_POINT", function(){
-  return "media_files";
+  return END_POINT;
 });

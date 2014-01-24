@@ -80,6 +80,8 @@ Playlist.prototype.__defineGetter__("mediaFiles", function(){
   return this._mediaFiles;
 });
 
-
+Playlist.prototype._extractData = function(data){
+  return data.playlist;
+};
 
 

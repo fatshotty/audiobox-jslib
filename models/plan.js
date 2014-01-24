@@ -52,3 +52,7 @@ Plan.DECLARED_FIELDS = Object.freeze({
   current: false
 
 });
+
+Plan.prototype._extractData = function(data){
+  return data.plan;
+};

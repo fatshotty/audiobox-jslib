@@ -1,3 +1,5 @@
+var Configuration = require("../configuration/configuration");
+var Connection = require("../core/connection");
 var Module = require("./module");
 var Logger = require("logging").from(__filename);
 var Playlists = require("./playlists");
@@ -78,7 +80,7 @@ var Plans = require("./plans");
 
 
 
-var END_POINT = "user";
+const END_POINT = Configuration.APIPath + Connection.URISeparator + "user";
 
 module.exports = User;
 
@@ -155,6 +157,11 @@ User.prototype.__defineGetter__("MediaFile", function(){
 User.prototype.__defineSetter__("disableAuth", function(value){
   this._disableAuth = value;
 });
+
+
+User.prototype._extractData = function(data){
+  return data.user;
+};
 
 /**
  *  This methods performs a request to server and populates this instance

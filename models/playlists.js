@@ -7,7 +7,7 @@ var END_POINT = "playlists";
 
 function Playlists(config, connectors) {
 
-  Collection.call(this, config, connectors, END_POINT);
+  Collection.call(this, config, connectors, "playlists");
 
   return this;
 }
@@ -72,3 +72,8 @@ Playlists.prototype.__defineGetter__("playlists", function(){
 
   return playlists;
 });
+
+
+Playlists.prototype._extractData = function(data){
+  return data.playlists;
+};

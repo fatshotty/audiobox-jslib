@@ -16,6 +16,8 @@ function Collection(config, connectors, module_name){
   this.module_name = module_name
   this.module = require("./" + module_name.singularize() );
 
+  // this.end_point = end_point;
+
   EventEmitter.call(this);
   Array.call(this);
 
@@ -25,11 +27,6 @@ function Collection(config, connectors, module_name){
 
 Collection.prototype.__proto__ = Array.prototype;
 Utils.merge(Collection.prototype, EventEmitter.prototype);
-
-
-Collection.prototype.__defineGetter__("END_POINT", function(){
-  return this.module_name;
-});
 
 
 Collection.prototype.__defineSetter__('parent', function(parent){
@@ -66,7 +63,6 @@ Collection.prototype.__defineGetter__("NodeConnector", function(){
 Collection.prototype.__defineGetter__("DaemonConnector", function(){
   return this.Connectors[ this.Configuration.SERVERS.DAEMON ];
 });
-
 
 
 

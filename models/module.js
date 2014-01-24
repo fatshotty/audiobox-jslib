@@ -7,7 +7,6 @@ module.exports = Module;
 
 function Module(declared_fields, config, connectors){
 
-
   this._fields = {};
 
   this._configuration = config;
@@ -102,10 +101,6 @@ Module.prototype._clear = function(){
   this._fields = {};
 };
 
-
-Module.prototype._extractData = function(data){
-  return data[ this.END_POINT ];
-};
 
 Module.prototype.getProperty = function(key){
   return this._properties[ key ];

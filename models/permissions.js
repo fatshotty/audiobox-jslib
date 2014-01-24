@@ -4,17 +4,21 @@ var Logger = require("logging").from(__filename);
 /**
   player: true,
   local: true,
-  cloud: true,
-  dropbox: true,
-  gdrive: true,
-  skydrive: true,
+  cloud: false,
+  dropbox: false,
+  gdrive: false,
+  skydrive: false,
+  ubuntu: false,
+  box: false,
   soundcloud: true,
   youtube: true,
-  box: true,
   lastfm: true,
   twitchtv: true,
   facebook: true,
-  twitter: true
+  twitter: true,
+  lyrics: true,
+  musixmatch: true,
+  songkick: true
  */
 
 
@@ -36,11 +40,19 @@ Permissions.DECLARED_FIELDS = Object.freeze({
   dropbox: false,
   gdrive: false,
   skydrive: false,
+  ubuntu: false,
+  box: false,
   soundcloud: false,
   youtube: false,
-  box: false,
   lastfm: false,
   twitchtv: false,
   facebook: false,
-  twitter: false
+  twitter: false,
+  lyrics: false,
+  musixmatch: false,
+  songkick: false
 });
+
+Permissions.prototype._extractData = function(data){
+  return data.permissions;
+};

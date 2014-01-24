@@ -50,3 +50,7 @@ AccountStats.DECLARED_FIELDS = Object.freeze({
   soundcloud_data_stored_this_month: 0,
   soundcloud_data_stored_overall: 0
 });
+
+AccountStats.prototype._extractData = function(data){
+  return data.stats;
+};

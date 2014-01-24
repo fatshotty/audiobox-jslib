@@ -35,6 +35,11 @@ Configuration.__defineGetter__("RequestFormats", function(){
 });
 
 
+Configuration.__defineGetter__("APIPath", function(){
+  return "/api/v1"
+});
+
+
 Configuration.prototype.__defineGetter__("SERVERS", function(){
   return Configuration.SERVERS;
 });

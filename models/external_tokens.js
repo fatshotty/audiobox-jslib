@@ -30,6 +30,7 @@ ExternalTokens.DECLARED_FIELDS = Object.freeze({
   dropbox: false,
   gdrive: false,
   skydrive: false,
+  ubuntu: false,
   soundcloud: false,
   youtube: false,
   box: false,
@@ -38,3 +39,7 @@ ExternalTokens.DECLARED_FIELDS = Object.freeze({
   facebook: false,
   twitter: false
 });
+
+ExternalTokens.prototype._extractData = function(data){
+  return data.external_tokens;
+};

@@ -1,13 +1,16 @@
+var Configuration = require("../configuration/configuration");
+var Connection = require("../core/connection");
 var Collection = require("./collection");
 
 
 module.exports = Plans;
-var END_POINT = "plans";
+
+const END_POINT = Configuration.APIPath + Connection.URISeparator + "plans";
 
 
 function Plans(config, connectors) {
 
-  Collection.call(this, config, connectors, END_POINT);
+  Collection.call(this, config, connectors, "plans");
 
   return this;
 }
@@ -37,3 +40,7 @@ Plans.__defineGetter__("END_POINT", function(){
 Plans.prototype.__defineGetter__("END_POINT", function(){
   return Plans.END_POINT;
 });
+
+Plans.prototype._extractData = function(data){
+  return data.plans;
+};

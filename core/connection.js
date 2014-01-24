@@ -43,7 +43,13 @@ Connection.prototype.get = function(key){
 };
 
 
+Connection.__defineGetter__("URISeparator", function(){
+  return "/";
+});
 
+Connection.prototype.__defineGetter__("URISeparator", function(){
+  return Connection.URISeparator;
+});
 
 Connection.prototype.__defineGetter__('Configuration', function(){
   return this._configuration;
