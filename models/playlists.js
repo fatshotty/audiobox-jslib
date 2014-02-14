@@ -2,7 +2,7 @@ var Collection = require("./collection");
 
 
 module.exports = Playlists;
-var END_POINT = "playlists";
+const END_POINT = Configuration.APIPath + Connection.URISeparator + "playlists";
 
 
 function Playlists(config, connectors) {

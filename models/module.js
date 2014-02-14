@@ -61,8 +61,6 @@ function Module(declared_fields, config, connectors){
 
         // This is an Object attribute
         if ( typeof value === "object" ){
-
-          // We can populate it with the data response
           this[ fName ]._parseResponse( value );
         }
 
@@ -99,6 +97,7 @@ Utils.merge(Module.prototype, EventEmitter.prototype);
 
 Module.prototype._clear = function(){
   this._fields = {};
+  this.emit("clear");
 };
 
 

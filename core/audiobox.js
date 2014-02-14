@@ -6,6 +6,7 @@ var Logger = require("logging").from(__filename);
 var EventEmitter = require("events").EventEmitter;
 require("../configuration/inflector");
 var User = require("../models/user");
+var User = require("../models/company");
 
 
 module.exports = AudioBox;
@@ -26,10 +27,24 @@ function AudioBox( config ) {
 AudioBox.prototype.__proto__ = EventEmitter.prototype;
 
 AudioBox.prototype.logout = function(){
+
+  // remove all listener for login
+  this.RailsConnector.removeAllListeners( "new_request" );
+  this.NodeConnector.removeAllListeners( "new_request" );
+  this.DaemonConnector.removeAllListeners( "new_request" );
+
+  if ( this._user ) {
+    this._user.clear();
+  }
+  if ( this._company ) {
+    this._company.clear();
+  }
+
   if( this.listeners("logout").length > 0 ) {
     this.emit("logout");
   }
   this._user = null;
+  this._company = null;
 };
 
 
@@ -44,9 +59,27 @@ AudioBox.prototype.__defineGetter__("Connectors", function(){
 AudioBox.prototype.__defineGetter__("User", function(){
   if ( !this._user ){
     Logger("User requested");
+    if ( this._company ){
+      // Company is already loggedin, so we must perform a completely logout
+      Logger("Company is already logged in, perform a logout");
+      this.logout();
+    }
     this._user = new User( this.Configuration, this.Connectors );
   }
   return this._user;
+});
+
+AudioBox.prototype.__defineGetter__("Company", function(){
+  if ( !this._company ){
+    Logger("Company requested");
+    if ( this._user ){
+      // Company is already loggedin, so we must perform a completely logout
+      Logger("User is already logged in, perform a logout");
+      this.logout();
+    }
+    this._company = new Company( this.Configuration, this.Connectors );
+  }
+  return this._company;
 });
 
 AudioBox.prototype.__defineSetter__("disableAuth", function(value){
