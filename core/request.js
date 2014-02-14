@@ -1,10 +1,7 @@
-var Utils = require("../configuration/utils");
 var EventEmitter = require("events").EventEmitter;
-var Rest = require("restler");
 var Logger = require("logging").from(__filename);
-var FS = require('fs');
 
-module.exports = Request;
+window.Request = Request;
 
 /**
  *  Request declaration

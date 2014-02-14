@@ -1,4 +1,4 @@
-module.exports = {
+ABX.Settings = {
 
   env: "development",
 

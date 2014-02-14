@@ -1,9 +1,5 @@
-var Configuration = require("../configuration/configuration");
-var Connection = require("../core/connection");
-var Collection = require("./collection");
 
-
-module.exports = Plans;
+window.Plans = Plans;
 
 const END_POINT = Configuration.APIPath + Connection.URISeparator + "plans";
 

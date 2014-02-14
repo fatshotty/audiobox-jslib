@@ -1,9 +1,7 @@
-var Utils = require("./utils");
 var Logger = require("logging").from(__filename);
-var CacheManager = require("./cachemanager");
 
 
-module.exports = Configuration;
+window.Configuration = Configuration;
 
 
 function Configuration(env) {

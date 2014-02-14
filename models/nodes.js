@@ -1,7 +1,5 @@
-var Collection = require("./collection");
 
-
-module.exports = Nodes;
+window.Nodes = Nodes;
 const END_POINT = Configuration.EnterpriseAPIPath + Connection.URISeparator + "nodes";
 
 

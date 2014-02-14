@@ -1,10 +1,6 @@
-var Utils = require("../configuration/utils");
 var Logger = require("logging");
-var Module = require("./module");
-var Events = require("./events");
-var Playlists = require("./playlists");
 
-module.exports = Playlist;
+window.Event = Event;
 
 
 function Event(config, connectors){

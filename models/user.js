@@ -1,17 +1,4 @@
-var Configuration = require("../configuration/configuration");
-var Connection = require("../core/connection");
-var Module = require("./module");
 var Logger = require("logging").from(__filename);
-var Playlists = require("./playlists");
-var MediaFile = require("./media_file");
-var MediaFiles = require("./media_files");
-
-var Permissions = require("./permissions");
-var AccountStats = require("./account_stats");
-var ExternalTokens = require("./external_tokens");
-var Preferences = require("./preferences");
-var Plans = require("./plans");
-
 
 /**
   {
@@ -82,7 +69,7 @@ var Plans = require("./plans");
 
 const END_POINT = Configuration.APIPath + Connection.URISeparator + "user";
 
-module.exports = User;
+window.User = User;
 
 
 function User(config, connectors){

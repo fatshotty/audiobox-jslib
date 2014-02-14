@@ -1,10 +1,3 @@
-var Utils = require("../configuration/utils");
-var Logger = require("logging");
-var Module = require("./module");
-var MediaFiles = require("./media_files");
-var Playlists = require("./playlists");
-
-
 /**
   playlist: {
     token: '803a9f413c8427c0',
@@ -22,7 +15,7 @@ var Playlists = require("./playlists");
   }
  */
 
-module.exports = Playlist;
+window.Playlist = Playlist;
 
 
 function Playlist(config, connectors){

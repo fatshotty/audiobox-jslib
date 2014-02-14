@@ -1,8 +1,3 @@
-var Utils = require("../configuration/utils");
-var Logger = require("logging");
-var Module = require("./module");
-var Playlists = require("./plans");
-
 
 /*
   description: 'Cloud 5GB',
@@ -17,7 +12,7 @@ var Playlists = require("./plans");
   current: false
 */
 
-module.exports = Plan;
+window.Plan = Plan;
 
 
 function Plan(config, connectors){

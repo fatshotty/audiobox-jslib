@@ -1,5 +1,3 @@
-var Module = require("./module");
-var Logger = require("logging").from(__filename);
 
 /**
   color: 'audiobox-fm-blue',
@@ -15,7 +13,7 @@ var Logger = require("logging").from(__filename);
  */
 
 
-module.exports = Preferences;
+window.Preferences = Preferences;
 
 
 function Preferences(config, connectors) {

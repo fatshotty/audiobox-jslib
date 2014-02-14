@@ -1,7 +1,5 @@
-var Collection = require("./collection");
 
-
-module.exports = Events;
+window.Events = Events;
 const END_POINT = Configuration.APIPath + Connection.URISeparator + "events";
 
 

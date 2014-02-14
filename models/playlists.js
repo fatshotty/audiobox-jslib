@@ -1,7 +1,6 @@
-var Collection = require("./collection");
 
 
-module.exports = Playlists;
+window.Playlists = Playlists;
 const END_POINT = Configuration.APIPath + Connection.URISeparator + "playlists";
 
 

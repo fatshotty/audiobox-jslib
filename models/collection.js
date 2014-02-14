@@ -1,9 +1,7 @@
-var Utils = require("../configuration/utils");
-var Logger = require("logging");
 var EventEmitter = require("events").EventEmitter;
 
 
-module.exports = Collection;
+window.Collection = Collection;
 
 
 function Collection(config, connectors, module_name){

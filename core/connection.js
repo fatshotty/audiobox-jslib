@@ -1,10 +1,8 @@
 var EventEmitter = require("events").EventEmitter;
-var Request = require("./request");
-var Utils = require("../configuration/utils");
 var Logger = require("logging").from(__filename);
 
 
-module.exports = Connection;
+window.Connection = Connection;
 
 
 function Connection(config, server){

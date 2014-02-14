@@ -1,4 +1,3 @@
-var Module = require("./module");
 var Logger = require("logging").from(__filename);
 
 /**
@@ -21,7 +20,7 @@ var Logger = require("logging").from(__filename);
  */
 
 
-module.exports = AccountStats;
+window.AccountStats = AccountStats;
 
 
 function AccountStats(config, connectors) {

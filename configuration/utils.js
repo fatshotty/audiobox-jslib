@@ -1,6 +1,6 @@
 
 
-var Utils = module.exports = {
+window.Utils = {
 
   isDefined: function(value){
     return value !== null && value !== undefined;

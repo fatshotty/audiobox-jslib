@@ -1,16 +1,4 @@
-var Configuration = require("../configuration/configuration");
-var Connection = require("../core/connection");
-var Module = require("./module");
 var Logger = require("logging").from(__filename);
-var Playlists = require("./playlists");
-var MediaFile = require("./media_file");
-var MediaFiles = require("./media_files");
-
-var Permissions = require("./permissions");
-var AccountStats = require("./account_stats");
-var ExternalTokens = require("./external_tokens");
-var Preferences = require("./preferences");
-var Plans = require("./plans");
 
 
 const END_POINT = Configuration.EnterpriseAPIPath + Connection.URISeparator + "company";
@@ -61,7 +49,8 @@ const END_POINT = Configuration.EnterpriseAPIPath + Connection.URISeparator + "c
      stats: {},
      preferences: { accept_emails: true } } }*/
 
-module.exports = Company;
+
+window.Company = Company;
 
 
 function Company(config, connectors){

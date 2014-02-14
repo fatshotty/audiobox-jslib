@@ -1,11 +1,5 @@
-var Utils = require("../configuration/utils");
-var Logger = require("logging");
-var Module = require("./module");
-var Nodes = require("./nodes");
 
-
-
-module.exports = Node;
+window.Node = Node;
 
 
 function Node(config, connectors){

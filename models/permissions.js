@@ -1,6 +1,3 @@
-var Module = require("./module");
-var Logger = require("logging").from(__filename);
-
 /**
   player: true,
   local: true,
@@ -22,7 +19,7 @@ var Logger = require("logging").from(__filename);
  */
 
 
-module.exports = Permissions;
+window.Permissions = Permissions;
 
 
 function Permissions(config, connectors) {

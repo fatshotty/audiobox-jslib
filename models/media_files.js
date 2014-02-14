@@ -1,9 +1,6 @@
-var Configuration = require("../configuration/configuration");
-var Connection = require("../core/connection");
-var Collection = require("./collection");
 
 
-module.exports = MediaFiles;
+window.MediaFiles = MediaFiles;
 
 const END_POINT = Configuration.APIPath + Connection.URISeparator + "media_files";
 

@@ -1,8 +1,3 @@
-var Utils = require("../configuration/utils");
-var Logger = require("logging");
-var Module = require("./module");
-var MediaFiles = require("./media_files");
-
 
 /**
   type: 'AudioFile',
@@ -38,7 +33,7 @@ var MediaFiles = require("./media_files");
  */
 
 
-module.exports = MediaFile;
+window.MediaFile = MediaFile;
 
 
 function MediaFile(config, connectors){

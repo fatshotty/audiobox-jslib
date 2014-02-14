@@ -1,5 +1,3 @@
-var Module = require("./module");
-var Logger = require("logging").from(__filename);
 
 /**
   dropbox: true,
@@ -15,7 +13,7 @@ var Logger = require("logging").from(__filename);
  */
 
 
-module.exports = ExternalTokens;
+window.ExternalTokens = ExternalTokens;
 
 
 function ExternalTokens(config, connectors) {
