@@ -1,6 +1,3 @@
-var EventEmitter = require("events").EventEmitter;
-
-
 window.Collection = Collection;
 
 

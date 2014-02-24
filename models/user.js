@@ -1,5 +1,3 @@
-var Logger = require("logging").from(__filename);
-
 /**
   {
     real_name: '',

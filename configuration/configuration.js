@@ -1,6 +1,3 @@
-var Logger = require("logging").from(__filename);
-
-
 window.Configuration = Configuration;
 
 

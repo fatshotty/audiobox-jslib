@@ -1,5 +1,3 @@
-var Logger = require("logging").from(__filename);
-
 
 const END_POINT = Configuration.EnterpriseAPIPath + Connection.URISeparator + "company";
 

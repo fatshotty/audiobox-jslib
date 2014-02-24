@@ -1,6 +1,3 @@
-var EventEmitter = require("events").EventEmitter;
-var Logger = require("logging").from(__filename);
-
 window.Request = Request;
 
 /**

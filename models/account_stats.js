@@ -1,5 +1,3 @@
-var Logger = require("logging").from(__filename);
-
 /**
   data_served_this_month: 1493165284,
   data_served_overall: 1493165284,

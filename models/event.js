@@ -1,5 +1,3 @@
-var Logger = require("logging");
-
 window.Event = Event;
 
 

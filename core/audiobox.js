@@ -1,7 +1,3 @@
-var Logger = require("logging").from(__filename);
-var EventEmitter = require("events").EventEmitter;
-
-
 window.AudioBox = AudioBox;
 
 
