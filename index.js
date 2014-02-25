@@ -6,6 +6,7 @@ function Logger() {
 
 function ABX_IMPORTER(env, folder){
   window.ABX = {};
+
   var IMPORTS = [
     "config/" + (env || "development") + ".js",
 
@@ -52,4 +53,5 @@ function ABX_IMPORTER(env, folder){
     document.body.appendChild( script );
   });
 
+  ABX.AudioBox = new AudioBox( new Configuration(ABX.Settings) );
 };

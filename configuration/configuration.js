@@ -74,9 +74,7 @@ Configuration.prototype.__defineSetter__("ENV", function(env) {
 
   this.environment = {};
 
-  var
-    settings = require("../config/" + env ),
-    keys = Object.keys(settings);
+  var settings = env, keys = Object.keys(settings);
 
   Logger("loaded environment", settings);
 
