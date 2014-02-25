@@ -4,7 +4,7 @@ function Logger() {
   }
 }
 
-function ABX_IMPORTER(env, folder){
+function ABX_IMPORTER(env, folder, cb){
   window.ABX = {};
 
   var IMPORTS = [
@@ -46,11 +46,23 @@ function ABX_IMPORTER(env, folder){
     "core/audiobox.js"
   ];
 
-  IMPORTS.forEach(function(js){
-    var script = document.createElement("script");
-    script.src = folder + js;
-    document.body.appendChild( script );
-  });
+  (function(){
+    var curr = 0;
+    function next(){
 
-  ABX.AudioBox = new AudioBox( new Configuration(ABX.Settings) );
+      if ( curr == IMPORTS.length ) {
+        ABX.AudioBox = new AudioBox( new Configuration(ABX.Settings) );
+        cb();
+        return true;
+      }
+
+      var script = document.createElement("script");
+      script.src = folder + IMPORTS[curr++];
+      script.onload = next;
+      document.body.appendChild( script );
+    }
+    next();
+  })();
+
+
 };
