@@ -47,7 +47,6 @@ function ABX_IMPORTER(env, folder){
   ];
 
   IMPORTS.forEach(function(js){
-    document.write('<script src="' + folder + js + '" ></script>');
     var script = document.createElement("script");
     script.src = folder + js;
     document.body.appendChild( script );
