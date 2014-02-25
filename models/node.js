@@ -65,7 +65,7 @@ Node.prototype.__defineSetter__("created_at", function(value){
 });
 
 
-Playlist.prototype.__defineGetter__("events", function(){
+Node.prototype.__defineGetter__("events", function(){
   if ( !this._events ){
     this._events = new Events(this.Configuration, this.Connectors);
     this._events.parent = this;

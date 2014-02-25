@@ -10,6 +10,10 @@ ABX.Settings = {
   NodeHost: "audiobox.fm",
   NodePort: 80,
 
+  SocketProtocol: "http",
+  SocketHost: "audiobox.fm",
+  SocketPort: 80,
+
   DaemonProtocol: "http",
   DaemonHost: "audiobox.fm",
   DaemonPort: 8082,
