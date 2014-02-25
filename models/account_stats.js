@@ -16,38 +16,39 @@
   soundcloud_data_stored_this_month: 0,
   soundcloud_data_stored_overall: 0
  */
+(function(){
+
+  window.AccountStats = AccountStats;
 
 
-window.AccountStats = AccountStats;
+  function AccountStats(config, connectors) {
+    var self = this;
+    Module.call( this, AccountStats.DECLARED_FIELDS, config, connectors );
+  }
 
 
-function AccountStats(config, connectors) {
-  var self = this;
-  Module.call( this, AccountStats.DECLARED_FIELDS, config, connectors );
-}
+  AccountStats.prototype.__proto__ = Module.prototype;
 
+  AccountStats.DECLARED_FIELDS = Object.freeze({
+    data_served_this_month: 0,
+    data_served_overall: 0,
+    cloud_data_stored_overall: 0,
+    cloud_data_stored_this_month: 0,
+    local_data_stored_overall: 0,
+    local_data_stored_this_month: 0,
+    dropbox_data_stored_overall: 0,
+    dropbox_data_stored_this_month: 0,
+    gdrive_data_stored_this_month: 0,
+    gdrive_data_stored_overall: 0,
+    skydrive_data_stored_this_month: 0,
+    skydrive_data_stored_overall: 0,
+    box_data_stored_this_month: 0,
+    box_data_stored_overall: 0,
+    soundcloud_data_stored_this_month: 0,
+    soundcloud_data_stored_overall: 0
+  });
 
-AccountStats.prototype.__proto__ = Module.prototype;
-
-AccountStats.DECLARED_FIELDS = Object.freeze({
-  data_served_this_month: 0,
-  data_served_overall: 0,
-  cloud_data_stored_overall: 0,
-  cloud_data_stored_this_month: 0,
-  local_data_stored_overall: 0,
-  local_data_stored_this_month: 0,
-  dropbox_data_stored_overall: 0,
-  dropbox_data_stored_this_month: 0,
-  gdrive_data_stored_this_month: 0,
-  gdrive_data_stored_overall: 0,
-  skydrive_data_stored_this_month: 0,
-  skydrive_data_stored_overall: 0,
-  box_data_stored_this_month: 0,
-  box_data_stored_overall: 0,
-  soundcloud_data_stored_this_month: 0,
-  soundcloud_data_stored_overall: 0
-});
-
-AccountStats.prototype._extractData = function(data){
-  return data.stats;
-};
+  AccountStats.prototype._extractData = function(data){
+    return data.stats;
+  };
+})();

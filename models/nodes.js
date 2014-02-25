@@ -1,27 +1,28 @@
-
-window.Nodes = Nodes;
-const END_POINT = Configuration.EnterpriseAPIPath + Connection.URISeparator + "nodes";
-
-
-function Nodes(config, connectors) {
-
-  Collection.call(this, config, connectors, "nodes");
-
-  return this;
-}
+(function(){
+  window.Nodes = Nodes;
+  const END_POINT = Configuration.EnterpriseAPIPath + Connection.URISeparator + "nodes";
 
 
-Nodes.prototype.__proto__ = Collection.prototype;
+  function Nodes(config, connectors) {
 
-Nodes.__defineGetter__("END_POINT", function(){
-  return END_POINT;
-});
+    Collection.call(this, config, connectors, "nodes");
 
-Nodes.prototype.__defineGetter__("END_POINT", function(){
-  return Playlists.END_POINT;
-});
+    return this;
+  }
 
 
-Nodes.prototype._extractData = function(data){
-  return data.nodes;
-};
+  Nodes.prototype.__proto__ = Collection.prototype;
+
+  Nodes.__defineGetter__("END_POINT", function(){
+    return END_POINT;
+  });
+
+  Nodes.prototype.__defineGetter__("END_POINT", function(){
+    return Playlists.END_POINT;
+  });
+
+
+  Nodes.prototype._extractData = function(data){
+    return data.nodes;
+  };
+})();

@@ -1,22 +1,26 @@
+(function(){
+
+  var CacheManager = function(config){
+    this._configuration = config;
+  }
+
+  CacheManager.prototype.__defineGetter__("Configuration", function(){
+    return this._configuration;
+  });
 
 
-var CacheManager = function(config){
-  this._configuration = config;
-}
+  CacheManager.prototype.setRequest = function(request, url, options){
+    return "";
+  };
 
-CacheManager.prototype.__defineGetter__("Configuration", function(){
-  return this._configuration;
-});
+  CacheManager.prototype.setBody = function(request, data, response, ecode){
 
+  };
 
-CacheManager.prototype.setRequest = function(request, url, options){
-  return "";
-};
+  CacheManager.prototype.getBody = function(request, url, options){
+    return "";
+  };
 
-CacheManager.prototype.setBody = function(request, data, response, ecode){
+  window.CacheManager = CacheManager;
 
-};
-
-CacheManager.prototype.getBody = function(request, url, options){
-  return "";
-};
+})();

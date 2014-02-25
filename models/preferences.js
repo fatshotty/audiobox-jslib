@@ -12,31 +12,32 @@
   hide_tooltips: false
  */
 
-
-window.Preferences = Preferences;
-
-
-function Preferences(config, connectors) {
-  var self = this;
-  Module.call( this, Preferences.DECLARED_FIELDS, config, connectors );
-}
+(function(){
+  window.Preferences = Preferences;
 
 
-Preferences.prototype.__proto__ = Module.prototype;
+  function Preferences(config, connectors) {
+    var self = this;
+    Module.call( this, Preferences.DECLARED_FIELDS, config, connectors );
+  }
 
-Preferences.DECLARED_FIELDS = Object.freeze({
-  color: 'audiobox-fm-blue',
-  repeat: false,
-  shuffle: false,
-  autoplay: false,
-  prebuffer: false,
-  js_demuxer: false,
-  top_bar_bg: 'default',
-  volume_level: '0',
-  accept_emails: false,
-  hide_tooltips: false
-});
 
-Preferences.prototype._extractData = function(data){
-  return data.preferences;
-};
+  Preferences.prototype.__proto__ = Module.prototype;
+
+  Preferences.DECLARED_FIELDS = Object.freeze({
+    color: 'audiobox-fm-blue',
+    repeat: false,
+    shuffle: false,
+    autoplay: false,
+    prebuffer: false,
+    js_demuxer: false,
+    top_bar_bg: 'default',
+    volume_level: '0',
+    accept_emails: false,
+    hide_tooltips: false
+  });
+
+  Preferences.prototype._extractData = function(data){
+    return data.preferences;
+  };
+})();

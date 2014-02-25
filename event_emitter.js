@@ -62,7 +62,7 @@
    * @param {String|RegExp} evt Name of the event to return the listeners from.
    * @return {Function[]|Object} All listener functions for the event.
    */
-  proto.getListeners = function getListeners(evt) {
+  proto.listeners = proto.getListeners = function getListeners(evt) {
     var events = this._getEvents();
     var response;
     var key;
