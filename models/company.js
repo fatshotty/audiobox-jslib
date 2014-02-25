@@ -205,6 +205,8 @@ Company.prototype.load = function(username, password){
     var companydata = self._extractData( data );
 
     self._parseResponse( companydata );
+    self.emit('login', true);
+    self._abx_.emit('login', true);
 
   };
 

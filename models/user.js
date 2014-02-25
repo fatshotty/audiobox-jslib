@@ -183,10 +183,17 @@ User.prototype.load = function(username, password){
 
     // data = JSON.parse(data);
     var userdata = self._extractData( data );
-
     self._parseResponse( userdata );
+    self.emit('login', true);
+    self._abx_.emit('login', true);
 
   };
+
+  request.error = function(){
+    self._loaded = false;
+    self.emit('login', false);
+    self._abx_.emit('login', false);
+  }
 
   return request.get( END_POINT );
 };

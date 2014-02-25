@@ -54,6 +54,7 @@ AudioBox.prototype.__defineGetter__("User", function(){
       this.logout();
     }
     this._user = new User( this.Configuration, this.Connectors );
+    this._user._abx_ = this;
   }
   return this._user;
 });
@@ -67,6 +68,7 @@ AudioBox.prototype.__defineGetter__("Company", function(){
       this.logout();
     }
     this._company = new Company( this.Configuration, this.Connectors );
+    this._company._abx_ = this;
   }
   return this._company;
 });
