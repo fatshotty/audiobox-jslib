@@ -10,7 +10,7 @@
     this._isLoaded = false;
 
     this.module_name = module_name
-    this.module = require("./" + module_name.singularize() );
+    this.module = window[module_name.singularize()];
 
     // this.end_point = end_point;
 
@@ -99,10 +99,14 @@
 
     var url = "";
     if ( this._parent ){
-      url = "/" + this._parent.END_POINT + "/" + this._parent.token;
+      url = this._parent.END_POINT + Connection.URISeparator + this._parent.token + Connection.URISeparator;
     }
 
-    url += "/" + this.module_name;
+    url += this.END_POINT;
+
+    if ( url.indexOf( Connection.URISeparator ) != 0 ) {
+      url = Connection.URISeparator + url;
+    }
 
     return request.get( url );
   };

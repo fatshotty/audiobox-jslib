@@ -366,12 +366,14 @@
 
     for (key in listeners) {
       if (listeners.hasOwnProperty(key)) {
-        i = listeners[key].length;
+        var _arr_listeners = Array.prototype.slice.call(listeners[key], 0);
+        _arr_listeners.reverse()
+        i = _arr_listeners.length;
 
         while (i--) {
           // If the listener returns true then it shall be removed from the event
           // The function is executed either with a basic call or an apply if there is an args array
-          listener = listeners[key][i];
+          listener = _arr_listeners[i];
 
           if (listener.once === true) {
             this.removeListener(evt, listener.listener);

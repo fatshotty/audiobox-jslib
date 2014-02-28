@@ -166,6 +166,14 @@
     return this.isLoaded && this.email != null && this.auth_token != null;
   });
 
+  Company.prototype.__defineGetter__("Nodes", function(){
+    if ( !this._nodes ){
+      this._nodes = new Nodes(this.Configuration, this.Connectors);
+      // this._nodes.parent = this;
+    }
+    return this._nodes;
+  });
+
 
 
   /**
@@ -227,11 +235,13 @@
     this._external_tokens && this._external_tokens._clear();
     this._account_stats && this._account_stats._clear();
     this._preferences && this._preferences._clear();
+    this._nodes && this._nodes._clear();
     this._permissions = null;
     this._external_tokens = null;
     this._account_stats = null;
     this._preferences = null;
     this._plans = null;
+    this._nodes = null;
     this._comet_channels = {};
   };
 })();

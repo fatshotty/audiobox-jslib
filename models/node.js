@@ -65,7 +65,7 @@
   });
 
 
-  Node.prototype.__defineGetter__("events", function(){
+  Node.prototype.__defineGetter__("Events", function(){
     if ( !this._events ){
       this._events = new Events(this.Configuration, this.Connectors);
       this._events.parent = this;
@@ -73,4 +73,9 @@
     return this._events;
   });
 
+  Node.prototype._clear = function() {
+    Module.prototype._clear.call(this);
+    this._events && this._events._clear();
+    this._events = null;
+  };
 })();

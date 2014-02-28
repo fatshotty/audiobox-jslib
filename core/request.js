@@ -13,7 +13,7 @@
 
     this.setAuthentication();
 
-    this.userAgent = this.connector.UserAgent;
+    // this.userAgent = this.connector.UserAgent;
     this.requestFormat = null;
     this._multipart = false;
     this.followRedirects = false;
@@ -98,12 +98,12 @@
 
 
   // UserAgent header
-  Request.prototype.__defineSetter__('userAgent', function(value){
-    this._options.headers['User-Agent'] = value;
-  });
-  Request.prototype.__defineGetter__('userAgent', function(){
-    return this._options.headers['User-Agent'];
-  });
+  // Request.prototype.__defineSetter__('userAgent', function(value){
+  //   this._options.headers['User-Agent'] = value;
+  // });
+  // Request.prototype.__defineGetter__('userAgent', function(){
+  //   return this._options.headers['User-Agent'];
+  // });
 
   // RequestFormat for the 'extension' of the URL
   Request.prototype.__defineSetter__('requestFormat', function(value){
@@ -195,7 +195,7 @@
     }
 
 
-    if ( this._authentication.name && this._authentication.value && this._authentication.isHeader ) {
+    if ( this._authentication.hname && this._authentication.value && this._authentication.isHeader ) {
       _options.headers[ this._authentication.hname ] = this._authentication.prefix + this._authentication.value
     }
 
