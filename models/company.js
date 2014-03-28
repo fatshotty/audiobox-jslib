@@ -1,7 +1,4 @@
 (function(){
-  const END_POINT = Configuration.EnterpriseAPIPath + Connection.URISeparator + "company";
-
-
   /*{ company:
      { id: 1,
        email: 'enterprisedemo@audiobox.fm',
@@ -68,6 +65,10 @@
       }
     };
 
+    // remove all previous events
+    this.RailsConnector.removeAllListeners("new_request");
+    this.NodeConnector.removeAllListeners("new_request");
+    this.DaemonConnector.removeAllListeners("new_request");
 
     // User is loaded! we have to set the first listener on the Connection class
     // In this way we are sure Auth parameter is correctly set!
@@ -121,7 +122,7 @@
 
 
   Company.prototype.__defineGetter__("END_POINT", function(){
-    return END_POINT;
+    return [Configuration.EnterpriseAPIPath, "company"].join( Connection.URISeparator );
   });
 
 
@@ -224,7 +225,7 @@
       self._abx_.emit('login', false);
     }
 
-    return request.get( END_POINT );
+    return request.get( this.END_POINT );
   };
 
 

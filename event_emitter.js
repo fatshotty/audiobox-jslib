@@ -332,7 +332,7 @@
     }
     else {
       // Remove all listeners in all events
-      delete this._events;
+      delete this.__events__;
     }
 
     return this;
@@ -446,7 +446,7 @@
    * @api private
    */
   proto._getEvents = function _getEvents() {
-    return this._events || (this._events = {});
+    return this.__events__ || (this.__events__ = {});
   };
 
   /**

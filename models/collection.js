@@ -10,7 +10,7 @@
     this._isLoaded = false;
 
     this.module_name = module_name
-    this.module = window[module_name.singularize()];
+    this.module = window[module_name.singularize().camelize()];
 
     // this.end_point = end_point;
 
@@ -90,6 +90,7 @@
       collection.forEach(function(item){
         var module = new this.module( this.Configuration, this.Connectors );
         module._parseResponse( item );
+        module._parent = self;
         this.push( module );
       }, self);
 
@@ -97,12 +98,7 @@
 
     };
 
-    var url = "";
-    if ( this._parent ){
-      url = this._parent.END_POINT + Connection.URISeparator + this._parent.token + Connection.URISeparator;
-    }
-
-    url += this.END_POINT;
+    var url = this.END_POINT;
 
     if ( url.indexOf( Connection.URISeparator ) != 0 ) {
       url = Connection.URISeparator + url;
@@ -119,6 +115,7 @@
     collection.forEach(function(item){
       var module = new this.module( this.Configuration, this.Connectors );
       module._parseResponse( item );
+      module._parent = self;
       this.push( module );
     }, this);
     this._isLoaded = true;
@@ -136,7 +133,7 @@
   Collection.prototype.find = function(value){
     for( var i = 0, l = this.length; i < l; i++ ){
       var item = this[ i ];
-      if ( item.token == value ){
+      if ( (item.token || item.id) == value ){
         item.__index__ = i;
         return item;
       }

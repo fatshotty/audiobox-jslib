@@ -2,9 +2,6 @@
 
   window.MediaFiles = MediaFiles;
 
-  const END_POINT = Configuration.APIPath + Connection.URISeparator + "media_files";
-
-
   function MediaFiles(config, connectors){
     Collection.call(this, config, connectors, "media_files");
     return this;
@@ -83,6 +80,14 @@
   });
 
   MediaFiles.__defineGetter__("END_POINT", function(){
-    return END_POINT;
+    return Configuration.APIPath + Connection.URISeparator + "media_files";
   });
+
+  MediaFiles.prototype.__defineGetter__("END_POINT", function(){
+    if ( this._parent ) {
+      return [this._parent.END_POINT, "media_files"].join( Connection.URISeparator );
+    }
+    return MediaFiles.END_POINT;
+  });
+
 })();

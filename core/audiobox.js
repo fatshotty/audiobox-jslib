@@ -21,10 +21,14 @@
     this.DaemonConnector.removeAllListeners( "new_request" );
 
     if ( this._user ) {
-      this._user.clear();
+      this._user._clear();
     }
     if ( this._company ) {
-      this._company.clear();
+      this._company._clear();
+    }
+
+    if ( this._node ) {
+      this._node._clear();
     }
 
     if( this.listeners("logout").length > 0 ) {
@@ -32,6 +36,7 @@
     }
     this._user = null;
     this._company = null;
+    this._node = null;
   };
 
 
@@ -69,6 +74,16 @@
       this._company._abx_ = this;
     }
     return this._company;
+  });
+
+  AudioBox.prototype.__defineGetter__("Node", function(){
+    if ( !this._node ){
+      Logger("Node requested, logout any aother account");
+      this.logout();
+      this._node = new Node( this.Configuration, this.Connectors );
+      this._node._abx_ = this;
+    }
+    return this._node;
   });
 
   AudioBox.prototype.__defineSetter__("disableAuth", function(value){

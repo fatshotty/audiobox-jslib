@@ -34,6 +34,9 @@
   });
 
   Playlist.prototype.__defineGetter__("END_POINT", function(value){
+    if ( this._parent ) {
+      return [this._parent.END_POINT, "playlist"].join( Connection.URISeparator );
+    }
     return Playlist.END_POINT;
   });
 
@@ -76,5 +79,41 @@
   Playlist.prototype._extractData = function(data){
     return data.playlist;
   };
+
+  Playlist.prototype.load = function() {
+
+    // Reset all fields
+    this._clear();
+
+    var self = this;  // shortcut to 'this' instance
+
+    var request = this.RailsConnector.Request; // new request
+
+
+    // Set the 'extension' for the URL
+    request.requestFormat = this.Configuration.RequestFormats.JSON;
+
+    request.success = function(res, data) {
+      // data = JSON.parse(data);
+      var userdata = self._extractData( data );
+      self._parseResponse( userdata );
+
+    };
+
+    request.error = function(){
+      self._loaded = false;
+    };
+
+    return request.get( this.END_POINT );
+  };
+
+
+  Playlist.prototype._clear = function() {
+    this._mediaFiles && this._mediaFiles._clear();
+    Module.prototype._clear.call(this);
+    delete this._mediaFiles;
+  };
+
+
 
 })();

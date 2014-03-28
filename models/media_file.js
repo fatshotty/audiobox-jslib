@@ -52,6 +52,11 @@
     return request.parseUrl( '/stream/' + this.filename, true );
   });
 
+  MediaFile.prototype.__defineGetter__('downloadUrl', function(){
+    var request = this.NodeConnector.Request;
+    return request.parseUrl( '/download/' + this.filename, true );
+  });
+
 
 
   MediaFile.DECLARED_FIELDS = Object.freeze({

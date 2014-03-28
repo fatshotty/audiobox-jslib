@@ -1,7 +1,5 @@
 (function(){
   window.Nodes = Nodes;
-  const END_POINT = Configuration.EnterpriseAPIPath + Connection.URISeparator + "nodes";
-
 
   function Nodes(config, connectors) {
 
@@ -14,7 +12,7 @@
   Nodes.prototype.__proto__ = Collection.prototype;
 
   Nodes.__defineGetter__("END_POINT", function(){
-    return END_POINT;
+    return [Configuration.EnterpriseAPIPath, "nodes"].join( Connection.URISeparator );
   });
 
   Nodes.prototype.__defineGetter__("END_POINT", function(){

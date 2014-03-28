@@ -88,6 +88,11 @@
     };
 
 
+    // remove all previous events
+    this.RailsConnector.removeAllListeners("new_request");
+    this.NodeConnector.removeAllListeners("new_request");
+    this.DaemonConnector.removeAllListeners("new_request");
+
     // User is loaded! we have to set the first listener on the Connection class
     // In this way we are sure Auth parameter is correctly set!
     this.RailsConnector.on( "new_request", addAuthToken );

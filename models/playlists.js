@@ -1,7 +1,6 @@
 (function(){
 
   window.Playlists = Playlists;
-  const END_POINT = Configuration.APIPath + Connection.URISeparator + "playlists";
 
 
   function Playlists(config, connectors) {
@@ -37,7 +36,7 @@
 
 
   Playlists.__defineGetter__("END_POINT", function(){
-    return END_POINT;
+    return [Configuration.APIPath, "playlists"].join( Connection.URISeparator );
   });
 
   Playlists.prototype.__defineGetter__("END_POINT", function(){
