@@ -87,12 +87,13 @@
 
       var collection = self._extractData( data );
 
-      collection.forEach(function(item){
-        var module = new this.module( this.Configuration, this.Connectors );
-        module._parseResponse( item );
-        module._parent = self;
-        this.push( module );
-      }, self);
+      // collection.forEach(function(item){
+      //   var module = new this.module( this.Configuration, this.Connectors );
+      //   module._parseResponse( item );
+      //   module._parent = self;
+      //   this.push( module );
+      // }, self);
+      self._populate( collection );
 
       self._isLoaded = true;
 
@@ -110,14 +111,15 @@
 
 
   Collection.prototype._populate = function(collection){
+    var self = this;
     this.emit("populateStart", this);
 
     collection.forEach(function(item){
-      var module = new this.module( this.Configuration, this.Connectors );
+      var module = new self.module( self.Configuration, self.Connectors );
       module._parseResponse( item );
       module._parent = self;
-      this.push( module );
-    }, this);
+      self.push( module );
+    });
     this._isLoaded = true;
 
     this.emit("populateEnd", this);

@@ -108,7 +108,7 @@ describe("MediaFile", function(){
     var mediaFile = mediaFiles.find( Fixtures.MediaFile.token );
 
 
-    expect( mediaFile.streamUrl.indexOf("?auth_token") ).toBeGreaterThan(0);
+    expect( mediaFile.streamUrl().indexOf("?auth_token") ).toBeGreaterThan(0);
 
     var old_playcount = mediaFile.plays, fired = false;
 
