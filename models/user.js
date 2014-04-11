@@ -272,11 +272,13 @@
     this._external_tokens && this._external_tokens._clear();
     this._account_stats && this._account_stats._clear();
     this._preferences && this._preferences._clear();
+    this._playlists && this._playlists._clear();
     this._permissions = null;
     this._external_tokens = null;
     this._account_stats = null;
     this._preferences = null;
     this._plans = null;
+    this._playlists = null;
   };
 
 })();

@@ -109,6 +109,13 @@
   };
 
 
+  Collection.prototype._clear = function(){
+    this.forEach(function(model){
+      model._clear();
+    });
+    this.length = 0;
+  };
+
 
   Collection.prototype._populate = function(collection){
     var self = this;
