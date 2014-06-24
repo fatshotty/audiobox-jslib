@@ -60,7 +60,7 @@
         return Logger("disableAuth for authToken");
       }
       if ( self.auth_token ){
-        Logger("setting auth_token", self.auth_token);
+        Logger("setting auth_token", self.auth_token.substring(self.auth_token.length - 7));
         request.setAuthentication( "auth_token", "x-auth-token", self.auth_token, true );
       }
     };

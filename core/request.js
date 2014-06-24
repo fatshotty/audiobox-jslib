@@ -209,7 +209,7 @@
           };
         }
 
-        var contentType = response.getResponseHeader("content-type");
+        var contentType = response.getResponseHeader ? response.getResponseHeader("content-type") : null;
 
         if ( (contentType || "").indexOf('json') > -1 ) {
           data = JSON.parse(data);
@@ -233,6 +233,11 @@
         } else if ( response.status == 304 ) {
           // Cache management
           self.Configuration.CacheManager.getBody(self, eCode, function(data){
+            if ( ! data ) {
+              self.emit("error", response, "" );
+              self.emit("complete", response, data );
+              return;
+            }
             if ( typeof data == "string" ) {
               data = JSON.parse(data);
             }

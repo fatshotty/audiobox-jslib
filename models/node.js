@@ -50,7 +50,7 @@
     var self = this;
     var addAuthToken = function(request) {
       if ( self._authentication_token ){
-        Logger("setting auth_token", self._authentication_token);
+        Logger("setting auth_token", self._authentication_token.substring(self._authentication_token.length - 7));
         request.setAuthentication( "auth_token", "x-auth-token", self._authentication_token, true );
       }
     };
