@@ -9,16 +9,16 @@
   });
 
 
-  CacheManager.prototype.setRequest = function(request, url, options){
-    return "";
+  CacheManager.prototype.setRequest = function(request, url, options, cb){
+    cb("");
   };
 
-  CacheManager.prototype.setBody = function(request, data, response, ecode){
-
+  CacheManager.prototype.setBody = function(request, data, response, ecode, cb){
+    cb();
   };
 
-  CacheManager.prototype.getBody = function(request, url, options){
-    return "";
+  CacheManager.prototype.getBody = function(request, url, options, cb){
+    cb("");
   };
 
   window.CacheManager = CacheManager;

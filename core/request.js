@@ -177,7 +177,6 @@
       _options = {};
 
     _options.type = method;
-    // _options.followRedirects = this.followRedirects;
     _options.data = options.data;
     _options.headers = options.headers;
     _options.username = options.username;
@@ -186,103 +185,87 @@
     if ( _options.username && _options.password ) {
       _options.headers['Authorization'] = "Basic " + btoa( _options.username + ":" + _options.password );
     }
-    // _options.multipart = this._multipart;
 
+    var callbackCache = (function(eCode) {
 
-    var eCode = "";
-    if ( method.toUpperCase() == "GET" ){
-      eCode = self.Configuration.CacheManager.setRequest(this, url, options);
-    }
-
-
-    if ( this._authentication.hname && this._authentication.value && this._authentication.isHeader ) {
-      _options.headers[ this._authentication.hname ] = this._authentication.prefix + this._authentication.value
-    }
-
-    Logger("executing request ", method.toUpperCase(), url);//, options);
-
-
-
-    _options.url = url;
-
-    _options.complete = function(response, data){
-      var data = response.responseText;
-      if (!response){
-        response = {
-          statusCode: 500,
-          headers: {}
-        };
+      if ( this._authentication.hname && this._authentication.value && this._authentication.isHeader ) {
+        _options.headers[ this._authentication.hname ] = this._authentication.prefix + this._authentication.value
       }
 
-      var contentType = response.getResponseHeader("content-type");
-
-      if ( (contentType || "").indexOf('json') > -1 ) {
-        data = JSON.parse(data);
+      if ( eCode ) {
+        _options.headers[ 'If-None-Match' ] = "\"" + eCode + "\"";
       }
 
-      if ( response.status >= 200 && response.status < 300  ){
+      Logger("executing request ", method.toUpperCase(), url);
 
-        if ( method.toUpperCase() == "GET" ){
-          self.Configuration.CacheManager.setBody(self, data, response, eCode);
+      _options.url = url;
+
+      _options.complete = function(response, data){
+        var data = response.responseText;
+        if (!response){
+          response = {
+            statusCode: 500,
+            headers: {}
+          };
         }
 
-        self.emit("success", response, data );
+        var contentType = response.getResponseHeader("content-type");
 
-      } else if ( response.status == 304 ) {
-        // Cache management
-        data = self.Configuration.CacheManager.getBody(self, eCode);
-        if ( typeof data == "string" ) {
+        if ( (contentType || "").indexOf('json') > -1 ) {
           data = JSON.parse(data);
         }
 
-        self.emit("success", response, data );
-
-
-      } else {
-
-        self.emit("error", response, data );
-
-        if ( self.connector.listeners( "error-" + response.status ).length > 0 ) {
-          self.connector.emit("error-" + response.status, self, response, data);
-        }
-        if ( self.connector.listeners( "error" ).length > 0 ) {
-          self.connector.emit("error", self, response, data);
+        function callback_success(data){
+          self.emit("success", response, data );
+          self.emit("complete", response, data );
         }
 
-      }
+        if ( response.status >= 200 && response.status < 300  ){
 
-      self.emit("complete", response, data );
-    };
+          if ( method.toUpperCase() == "GET" ){
+            self.Configuration.CacheManager.setBody(self, data, response, eCode, function(){
+              callback_success(data);
+            });
+          } else {
+            callback_success();
+          }
 
-    // _options.error = function(data, response){
+        } else if ( response.status == 304 ) {
+          // Cache management
+          self.Configuration.CacheManager.getBody(self, eCode, function(data){
+            if ( typeof data == "string" ) {
+              data = JSON.parse(data);
+            }
+            callback_success(data);
+          });
 
-    //   self.emit("error", response, data );
-    //   if ( response.status ) {
-    //     self.emit("error-" + response.status, response, data );
-    //     self.connector.emit("error-" + response.status, self, response, data);
-    //   }
+        } else {
 
-    //   self.connector.emit("connectionError", self, response, data);
+          self.emit("error", response, data );
 
-    //   self.emit("complete", response, data );
+          if ( self.connector.listeners( "error-" + response.status ).length > 0 ) {
+            self.connector.emit("error-" + response.status, self, response, data);
+          }
+          if ( self.connector.listeners( "error" ).length > 0 ) {
+            self.connector.emit("error", self, response, data);
+          }
 
-    // };
+          self.emit("complete", response, data );
 
-    this.request = $.ajax( _options );
-      // .request.on('response', function(response){
-      //   var
-      //     contentLength = response.headers['content-length'],
-      //     progressLength = 0;
-      //   contentLength = parseInt( contentLength , 10 );
-      //   response.on('data', function(chunk){
+        }
 
-      //     progressLength += chunk.length;
-      //     var percent = (100 * progressLength) / contentLength;
-      //     self.emit('progress', percent, contentLength, chunk);
 
-      //   });
+      };
 
-      // });
+      this.request = $.ajax( _options );
+
+    }).bind(this);
+
+    if ( method.toUpperCase() == "GET" ){
+      self.Configuration.CacheManager.setRequest(this, url, _options, callbackCache);
+    } else {
+      callbackCache();
+    }
 
   };
 
