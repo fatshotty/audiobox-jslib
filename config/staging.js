@@ -10,9 +10,9 @@ ABX.Settings = {
   NodeHost: "staging.audiobox.fm",
   NodePort: 80,
 
-  SocketProtocol: "http",
+  SocketProtocol: "https",
   SocketHost: "staging.audiobox.fm",
-  SocketPort: 80,
+  SocketPort: 443,
 
   DaemonProtocol: "http",
   DaemonHost: "staging.audiobox.fm",
