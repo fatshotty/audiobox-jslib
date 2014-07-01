@@ -18,6 +18,12 @@ ABX.Settings = {
   DaemonHost: "staging.audiobox.fm",
   DaemonPort: 8082,
 
-  UserAgent: "AudioBox.fm 2 API framework"
+  UserAgent: "AudioBox.fm 2 API framework",
+
+  Cover: {
+    protocol: "http",
+    host: "m.staging.audiobox.fm",
+    basePath: ""
+  }
 
 };
