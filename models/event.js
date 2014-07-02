@@ -41,7 +41,8 @@
     id: 0,
     playlist_token: "",
     schedule: "",
-    comment: ""
+    comment: "",
+    promo: false
   });
 
   Event.prototype._clear = function() {
