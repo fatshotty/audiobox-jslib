@@ -204,7 +204,7 @@
         var data = response.responseText;
         if (!response){
           response = {
-            statusCode: 500,
+            status: 500,
             headers: {}
           };
         }
