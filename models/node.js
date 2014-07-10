@@ -42,7 +42,8 @@
     created_at: "",
     updated_at: "",
     customer_id: 0,
-    online: false
+    online: false,
+    comet_channels: {}
   });
 
 
