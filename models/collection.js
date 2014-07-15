@@ -72,7 +72,10 @@
 
   Collection.prototype.load = function(){
 
+    this.splice(0, this.length);
     this.length = 0;
+
+    this._isLoaded = false;
 
     var
       self = this,
@@ -113,6 +116,8 @@
     this.forEach(function(model){
       model._clear();
     });
+    this.emit("cleared");
+    this.splice(0, this.length);
     this.length = 0;
   };
 
