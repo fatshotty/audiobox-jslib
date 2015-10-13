@@ -1,3 +1,5 @@
+var Configuration = require("../configuration/configuration");
+var Connection = require("../core/connection");
 var Collection = require("./collection");
 
 
