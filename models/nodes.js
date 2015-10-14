@@ -1,4 +1,6 @@
 var Collection = require("./collection");
+var Configuration = require("../configuration/configuration");
+var Connection = require("../core/connection");
 
 
 module.exports = Nodes;

@@ -6,7 +6,8 @@ var Logger = require("logging").from(__filename);
 var EventEmitter = require("events").EventEmitter;
 require("../configuration/inflector");
 var User = require("../models/user");
-var User = require("../models/company");
+var Company = require("../models/company");
+var Node = require("../models/node");
 
 
 module.exports = AudioBox;
