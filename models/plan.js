@@ -40,7 +40,7 @@ Plan.prototype.__defineGetter__("END_POINT", function(value){
 
 Plan.DECLARED_FIELDS = Object.freeze({
 
-  escription: '',
+  description: '',
   price: 0,
   currency: '',
   currency_symbol: '',

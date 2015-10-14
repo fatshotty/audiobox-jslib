@@ -76,7 +76,10 @@ Collection.prototype.push = function(item){
 
 Collection.prototype.load = function(){
 
+  this.splice(0, this.length);
   this.length = 0;
+
+  this._isLoaded = false;
 
   var
     self = this,
@@ -91,27 +94,30 @@ Collection.prototype.load = function(){
 
     var collection = self._extractData( data );
 
-    collection.forEach(function(item){
-      var module = new this.module( this.Configuration, this.Connectors );
-      module._parseResponse( item );
-      this.push( module );
-    }, self);
+    self._populate( collection );
 
     self._isLoaded = true;
 
   };
 
-  var url = "";
-  if ( this._parent ){
-    url = "/" + this._parent.END_POINT + "/" + this._parent.token;
-  }
+  var url = this.END_POINT;
 
-  url += "/" + this.module_name;
+  if ( url.indexOf( Connection.URISeparator ) != 0 ) {
+    url = Connection.URISeparator + url;
+  }
 
   return request.get( url );
 };
 
 
+Collection.prototype._clear = function(){
+  this.forEach(function(model){
+    model._clear();
+  });
+  this.emit("cleared");
+  this.splice(0, this.length);
+  this.length = 0;
+};
 
 Collection.prototype._populate = function(collection){
   this.emit("populateStart", this);
@@ -119,6 +125,7 @@ Collection.prototype._populate = function(collection){
   collection.forEach(function(item){
     var module = new this.module( this.Configuration, this.Connectors );
     module._parseResponse( item );
+    module._parent = this;
     this.push( module );
   }, this);
   this._isLoaded = true;

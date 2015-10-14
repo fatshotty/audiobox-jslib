@@ -103,6 +103,11 @@ function User(config, connectors){
   };
 
 
+  // remove all previous events
+  this.RailsConnector.removeAllListeners("new_request");
+  this.NodeConnector.removeAllListeners("new_request");
+  this.DaemonConnector.removeAllListeners("new_request");
+
   // User is loaded! we have to set the first listener on the Connection class
   // In this way we are sure Auth parameter is correctly set!
   this.RailsConnector.on( "new_request", addAuthToken );
@@ -200,7 +205,13 @@ User.prototype.load = function(username, password){
     var userdata = self._extractData( data );
 
     self._parseResponse( userdata );
+    self.emit('login', true);
 
+  };
+
+  request.error = function(){
+    self._loaded = false;
+    self.emit('login', false);
   };
 
   return request.get( END_POINT );
@@ -255,7 +266,7 @@ User.prototype.__defineGetter__("preferences", function(){
 
 User.prototype.__defineGetter__("plans", function(){
   if( !this._plans ){
-    this._plans = new Preferences(this.Configuration, this.Connectors);
+    this._plans = new Plans(this.Configuration, this.Connectors);
   }
   return this._plans;
 });
@@ -275,10 +286,12 @@ User.prototype._clear = function() {
   this._external_tokens && this._external_tokens._clear();
   this._account_stats && this._account_stats._clear();
   this._preferences && this._preferences._clear();
+  this._playlists && this._playlists._clear();
   this._permissions = null;
   this._external_tokens = null;
   this._account_stats = null;
   this._preferences = null;
   this._plans = null;
+  this._playlists = null;
 };
 

@@ -52,9 +52,36 @@ function MediaFile(config, connectors){
 MediaFile.prototype.__proto__ = Module.prototype;
 
 
-MediaFile.prototype.__defineGetter__('streamUrl', function(){
+MediaFile.prototype.streamUrl = function(scope){
   var request = this.NodeConnector.Request;
-  return request.parseUrl( '/stream/' + this.filename, true );
+  if ( scope ) {
+    scope = [Configuration.APIPath, scope ].join(Connection.URISeparator)
+  } else {
+    scope = Configuration.APIPath;
+  }
+  return request.parseUrl( [scope, 'stream', this.filename].join(Connection.URISeparator), true );
+};
+
+MediaFile.prototype.downloadUrl = function(scope){
+  var request = this.NodeConnector.Request;
+  if ( scope ) {
+    scope = [Configuration.APIPath, scope ].join(Connection.URISeparator)
+  } else {
+    scope = Configuration.APIPath;
+  }
+  return request.parseUrl( [scope, 'download', this.filename].join(Connection.URISeparator), true );
+};
+
+
+MediaFile.__defineGetter__("END_POINT", function(value){
+  return MediaFiles.END_POINT;
+});
+
+MediaFile.prototype.__defineGetter__("END_POINT", function(value){
+  if ( this._parent ) {
+    return [this._parent.END_POINT, "media_file"].join( Connection.URISeparator );
+  }
+  return MediaFile.END_POINT;
 });
 
 

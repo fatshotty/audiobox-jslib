@@ -40,11 +40,16 @@ AudioBox.prototype.logout = function(){
     this._company.clear();
   }
 
+  if ( this._node ) {
+    this._node._clear();
+  }
+
   if( this.listeners("logout").length > 0 ) {
     this.emit("logout");
   }
   this._user = null;
   this._company = null;
+  this._node = null;
 };
 
 
@@ -65,6 +70,7 @@ AudioBox.prototype.__defineGetter__("User", function(){
       this.logout();
     }
     this._user = new User( this.Configuration, this.Connectors );
+
   }
   return this._user;
 });
@@ -78,12 +84,29 @@ AudioBox.prototype.__defineGetter__("Company", function(){
       this.logout();
     }
     this._company = new Company( this.Configuration, this.Connectors );
+
   }
   return this._company;
 });
 
+AudioBox.prototype.__defineGetter__("Node", function(){
+  if ( !this._node ){
+    Logger("Node requested, logout any aother account");
+    this.logout();
+    this._node = new Node( this.Configuration, this.Connectors );
+
+  }
+  return this._node;
+});
+
 AudioBox.prototype.__defineSetter__("disableAuth", function(value){
-  this.User.disableAuth = value;
+  // Disable Authentication for the first instantiated class
+  // otherwise we choose User
+  ( this._user ||
+    this._company ||
+    this._node ||
+    this.User
+  ).disableAuth = value;
 });
 
 

@@ -76,13 +76,18 @@ function Company(config, connectors){
       return Logger("disableAuth for authToken");
     }
     if ( self.auth_token ){
-      Logger("setting auth_token", self.auth_token);
+      Logger("setting auth_token", self.auth_token.substring(self.auth_token.length - 7));
       request.setAuthentication( "auth_token", "x-auth-token", self.auth_token, true );
     }
   };
 
 
-  // User is loaded! we have to set the first listener on the Connection class
+  // remove all previous events
+  this.RailsConnector.removeAllListeners("new_request");
+  this.NodeConnector.removeAllListeners("new_request");
+  this.DaemonConnector.removeAllListeners("new_request");
+
+  // Company is loaded! we have to set the first listener on the Connection class
   // In this way we are sure Auth parameter is correctly set!
   this.RailsConnector.on( "new_request", addAuthToken );
   this.NodeConnector.on( "new_request",  addAuthToken );
@@ -134,7 +139,7 @@ Company.prototype._extractData = function(data){
 
 
 Company.prototype.__defineGetter__("END_POINT", function(){
-  return END_POINT;
+  return [Configuration.EnterpriseAPIPath, "company"].join( Connection.URISeparator );
 });
 
 
@@ -179,6 +184,14 @@ Company.prototype.__defineGetter__("isLoggedIn", function(){
   return this.isLoaded && this.email != null && this.auth_token != null;
 });
 
+Company.prototype.__defineGetter__("Nodes", function(){
+  if ( !this._nodes ){
+    this._nodes = new Nodes(this.Configuration, this.Connectors);
+    // this._nodes.parent = this;
+  }
+  return this._nodes;
+});
+
 
 
 /**
@@ -218,7 +231,13 @@ Company.prototype.load = function(username, password){
     var companydata = self._extractData( data );
 
     self._parseResponse( companydata );
+    self.emit('login', true);
 
+  };
+
+  request.error = function(){
+    self._loaded = false;
+    self.emit('login', false);
   };
 
   return request.get( END_POINT );
@@ -232,10 +251,13 @@ Company.prototype._clear = function() {
   this._external_tokens && this._external_tokens._clear();
   this._account_stats && this._account_stats._clear();
   this._preferences && this._preferences._clear();
+  this._plans && this._plans._clear();
+  this._nodes && this._nodes._clear();
   this._permissions = null;
   this._external_tokens = null;
   this._account_stats = null;
   this._preferences = null;
   this._plans = null;
+  this._nodes = null;
   this._comet_channels = {};
 };

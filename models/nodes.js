@@ -16,14 +16,25 @@ function Nodes(config, connectors) {
 Nodes.prototype.__proto__ = Collection.prototype;
 
 Nodes.__defineGetter__("END_POINT", function(){
-  return END_POINT;
+  return [Configuration.EnterpriseAPIPath, "nodes"].join( Connection.URISeparator );
 });
 
 Nodes.prototype.__defineGetter__("END_POINT", function(){
-  return Playlists.END_POINT;
+  return Nodes.END_POINT;
 });
 
 
 Nodes.prototype._extractData = function(data){
   return data.nodes;
+};
+
+Nodes.prototype.getNodeById = function(id){
+  var n = null;
+  this.forEach(function(node){
+    if ( node.id == id ) {
+      n = node;
+      return false; // stop the loop
+    }
+  });
+  return n;
 };
