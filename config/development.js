@@ -18,7 +18,7 @@ module.exports = {
   DaemonHost: "localhost",
   DaemonPort: 3000,
 
-  UserAgent: "AudioBox.fm 2 API framework"
+  UserAgent: "AudioBox.fm 2 API framework",
 
   Cover: {
     protocol: "http",
