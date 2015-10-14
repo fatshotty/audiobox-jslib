@@ -1,6 +1,10 @@
 (function(){
   window.Module = Module;
 
+
+
+
+
   function Module(declared_fields, config, connectors){
 
     this._fields = {};

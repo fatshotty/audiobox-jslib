@@ -22,6 +22,9 @@
   window.Permissions = Permissions;
 
 
+
+
+
   function Permissions(config, connectors) {
     var self = this;
     Module.call( this, Permissions.DECLARED_FIELDS, config, connectors );

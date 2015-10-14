@@ -1,9 +1,16 @@
 (function(){
+
+
+
+
+
+
+
   function Configuration(env) {
 
     if ( !env ){
       env = "staging";
-      Logger("no environment set, use development instead");
+      Logger("no environment set, use staging instead");
     }
 
     this.ENV = env;
@@ -65,14 +72,16 @@
   });
   Configuration.prototype.__defineSetter__("CacheManager", function(cacheManager){
     this._cacheManager = cacheManager;
-  })
+  });
 
 
   Configuration.prototype.__defineSetter__("ENV", function(env) {
 
     this.environment = {};
 
-    var settings = env, keys = Object.keys(settings);
+    var
+      settings = env,
+      keys = Object.keys(settings);
 
     Logger("loaded environment", settings);
 

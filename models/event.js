@@ -2,6 +2,11 @@
   window.Event = Event;
 
 
+
+
+
+
+
   function Event(config, connectors){
 
     Module.call( this, Event.DECLARED_FIELDS, config, connectors );
@@ -10,6 +15,7 @@
   }
 
   Event.prototype.__proto__ = Module.prototype;
+
 
 
   Event.__defineGetter__("END_POINT", function(value){

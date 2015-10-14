@@ -236,6 +236,7 @@
     this._external_tokens && this._external_tokens._clear();
     this._account_stats && this._account_stats._clear();
     this._preferences && this._preferences._clear();
+    this._plans && this._plans._clear();
     this._nodes && this._nodes._clear();
     this._permissions = null;
     this._external_tokens = null;

@@ -3,6 +3,8 @@
 
   window.Events = Events;
 
+
+
   function Events(config, connectors) {
 
     Collection.call(this, config, connectors, "events");

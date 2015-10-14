@@ -36,6 +36,11 @@
   window.MediaFile = MediaFile;
 
 
+
+
+
+
+
   function MediaFile(config, connectors){
 
     Module.call( this, MediaFile.DECLARED_FIELDS, config, connectors );
@@ -46,11 +51,6 @@
 
   MediaFile.prototype.__proto__ = Module.prototype;
 
-  function makeURL( action ) {
-    if ( this._parent ) {
-
-    }
-  }
 
   MediaFile.prototype.streamUrl = function(scope){
     var request = this.NodeConnector.Request;

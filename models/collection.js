@@ -2,6 +2,10 @@
   window.Collection = Collection;
 
 
+
+
+
+
   function Collection(config, connectors, module_name){
 
     this._configuration = config;
@@ -120,7 +124,6 @@
     this.splice(0, this.length);
     this.length = 0;
   };
-
 
   Collection.prototype._populate = function(collection){
     var self = this;

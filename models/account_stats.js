@@ -21,6 +21,9 @@
   window.AccountStats = AccountStats;
 
 
+
+
+
   function AccountStats(config, connectors) {
     var self = this;
     Module.call( this, AccountStats.DECLARED_FIELDS, config, connectors );

@@ -5,6 +5,11 @@
    *  Request declaration
    */
 
+
+
+
+
+
   function Request(connection){
     this.connector = connection;
     this._configuration = connection.Configuration
@@ -227,7 +232,7 @@
               callback_success(data);
             });
           } else {
-            callback_success();
+            callback_success(data);
           }
 
         } else if ( response.status == 304 ) {
@@ -328,13 +333,13 @@
   };
 
 
-  Request.prototype.fileUpload = function(path, mime){
-    this._multipart = true;
+  // Request.prototype.fileUpload = function(path, mime){
+  //   this._multipart = true;
 
-    var size = FS.lstatSync(path).size
+  //   var size = FS.lstatSync(path).size
 
-    return Rest.file(path, null, size, null, mime);
-  };
+  //   return Rest.file(path, null, size, null, mime);
+  // };
 
 
   Request.prototype.put = function(url, params){

@@ -1,4 +1,17 @@
 (function(){
+
+
+
+
+
+
+
+
+
+
+
+
+
   function AudioBox( config ) {
 
     this._configuration = config;
@@ -87,7 +100,13 @@
   });
 
   AudioBox.prototype.__defineSetter__("disableAuth", function(value){
-    this.User.disableAuth = value;
+    // Disable Authentication for the first instantiated class
+    // otherwise we choose User
+    ( this._user ||
+      this._company ||
+      this._node ||
+      this.User
+    ).disableAuth = value;
   });
 
 

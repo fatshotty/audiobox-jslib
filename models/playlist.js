@@ -18,6 +18,13 @@
   window.Playlist = Playlist;
 
 
+
+
+
+
+
+
+
   function Playlist(config, connectors){
 
     Module.call( this, Playlist.DECLARED_FIELDS, config, connectors );

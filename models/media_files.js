@@ -2,6 +2,12 @@
 
   window.MediaFiles = MediaFiles;
 
+
+
+
+
+
+
   function MediaFiles(config, connectors){
     Collection.call(this, config, connectors, "media_files");
     return this;

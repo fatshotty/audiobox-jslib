@@ -4,6 +4,10 @@
   const END_POINT = Configuration.APIPath + Connection.URISeparator + "plans";
 
 
+
+
+
+
   function Plans(config, connectors) {
 
     Collection.call(this, config, connectors, "plans");

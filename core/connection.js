@@ -2,6 +2,11 @@
   window.Connection = Connection;
 
 
+
+
+
+
+
   function Connection(config, server){
 
     this._configuration = config;

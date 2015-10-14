@@ -198,7 +198,7 @@
       self._loaded = false;
       self.emit('login', false);
       self._abx_.emit('login', false);
-    }
+    };
 
     return request.get( END_POINT );
   };
@@ -252,7 +252,7 @@
 
   User.prototype.__defineGetter__("plans", function(){
     if( !this._plans ){
-      this._plans = new Preferences(this.Configuration, this.Connectors);
+      this._plans = new Plans(this.Configuration, this.Connectors);
     }
     return this._plans;
   });

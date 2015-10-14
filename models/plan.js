@@ -15,6 +15,11 @@
   window.Plan = Plan;
 
 
+
+
+
+
+
   function Plan(config, connectors){
 
     Module.call( this, Plan.DECLARED_FIELDS, config, connectors );
@@ -35,7 +40,7 @@
 
   Plan.DECLARED_FIELDS = Object.freeze({
 
-    escription: '',
+    description: '',
     price: 0,
     currency: '',
     currency_symbol: '',
