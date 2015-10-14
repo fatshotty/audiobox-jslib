@@ -35,10 +35,10 @@ AudioBox.prototype.logout = function(){
   this.DaemonConnector.removeAllListeners( "new_request" );
 
   if ( this._user ) {
-    this._user.clear();
+    this._user._clear();
   }
   if ( this._company ) {
-    this._company.clear();
+    this._company._clear();
   }
 
   if ( this._node ) {
