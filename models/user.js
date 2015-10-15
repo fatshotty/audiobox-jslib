@@ -94,10 +94,10 @@ function User(config, connectors){
 
   var addAuthToken = function(request) {
     if ( self._disableAuth ){
-      return Logger("disableAuth for authToken");
+      return Logger.warn("disableAuth for authToken");
     }
     if ( self.auth_token ){
-      Logger("setting auth_token", self.auth_token);
+      Logger.warn("setting auth_token", self.auth_token.substring(self.auth_token.length - 7));
       request.setAuthentication( "auth_token", "x-auth-token", self.auth_token, true );
     }
   };
@@ -115,7 +115,7 @@ function User(config, connectors){
   this.DaemonConnector.on( "new_request",  addAuthToken );
 
 
-  Logger("new User instantiated");
+  Logger.debug("new User instantiated");
 
   return this;
 }
@@ -191,9 +191,9 @@ User.prototype.load = function(username, password){
 
   request.beforeSend = function(req){
     if ( self._disableAuth ){
-      return Logger("disableAuth for email e password");
+      return Logger.warn("disableAuth for email e password");
     }
-    Logger("set credentials");
+    Logger.debug("set credentials", username);
     this.setCredentials(username, password);
   };
 

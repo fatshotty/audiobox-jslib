@@ -73,10 +73,10 @@ function Company(config, connectors){
 
   var addAuthToken = function(request) {
     if ( self._disableAuth ){
-      return Logger("disableAuth for authToken");
+      return Logger.warn("disableAuth for authToken");
     }
     if ( self.auth_token ){
-      Logger("setting auth_token", self.auth_token.substring(self.auth_token.length - 7));
+      Logger.warn("setting auth_token", self.auth_token.substring(self.auth_token.length - 7));
       request.setAuthentication( "auth_token", "x-auth-token", self.auth_token, true );
     }
   };
@@ -93,7 +93,7 @@ function Company(config, connectors){
   this.NodeConnector.on( "new_request",  addAuthToken );
   this.DaemonConnector.on( "new_request",  addAuthToken );
 
-  Logger("new Company instantiated");
+  Logger.debug("new Company instantiated");
 
   return this;
 }
@@ -217,9 +217,9 @@ Company.prototype.load = function(username, password){
 
   request.beforeSend = function(req){
     if ( self._disableAuth ){
-      return Logger("disableAuth for email e password");
+      return Logger.warn("disableAuth for email e password");
     }
-    Logger("set credentials");
+    Logger.debug("set credentials", username);
     this.setCredentials(username, password);
   };
 

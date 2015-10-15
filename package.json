@@ -3,9 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
-    "restler": "latest",
-    "logging": "latest",
-    "oop": "latest",
-    "ws": "latest"
+    "restler": "3.4.0",
+    "logging": "git@github.com:fatshotty/logging.git"
   }
 }

@@ -10,7 +10,7 @@ function Configuration(env) {
 
   if ( !env ){
     env = "staging";
-    Logger("no environment set, use staging instead");
+    Logger.warn("no environment set, used staging instead");
   }
 
   this.ENV = env;
@@ -83,7 +83,7 @@ Configuration.prototype.__defineSetter__("ENV", function(env) {
     settings = require("../config/" + env ),
     keys = Object.keys(settings);
 
-  Logger("loaded environment", settings);
+  Logger.info("loaded environment", settings);
 
   keys.forEach(function(k){
     this.environment[ k ] = settings[ k ];
