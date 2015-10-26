@@ -185,6 +185,17 @@ MediaFile.prototype.upload = function(path) {
   return request.post( "upload", {"files[]": file });
 };
 
+MediaFile.prototype.download = function(file, scope) {
+  var
+    self = this,
+    request = this.NodeConnector.Request;
+
+  request.downloadFile = file;
+
+  request._execute( "get", this.downloadUrl(scope) );
+  return request;
+};
+
 
 MediaFile.prototype.uploadAsLocal = function(){
   throw new Error("not implements yet");

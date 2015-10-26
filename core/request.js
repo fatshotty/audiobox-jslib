@@ -127,6 +127,13 @@ Request.prototype.__defineGetter__('followRedirects', function(){
   return this._options.followRedirects;
 });
 
+// Set the filepath to download file to
+Request.prototype.__defineSetter__('downloadFile', function(value){
+  this._downloadFile = value;
+});
+Request.prototype.__defineGetter__('downloadFile', function(){
+  return this._downloadFile;
+});
 
 
 /* ================================
@@ -258,9 +265,11 @@ Request.prototype._execute = function(method, url, options){
           if ( self.connector.listeners( "error-" + response.statusCode ).length > 0 ) {
             self.connector.emit("error-" + response.statusCode, self, response, data);
           }
-          if ( self.connector.listeners( "error" ).length > 0 ) {
-            self.connector.emit("error", self, response, data);
-          }
+          // if ( self.connector.listeners( "error" ).length > 0 ) {
+          //   self.connector.emit("error", self, response, data);
+          // }
+
+          self.connector.emit("connectionError", self, response, data);
 
           self.emit("complete", response, data );
 
