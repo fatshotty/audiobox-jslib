@@ -35,10 +35,10 @@ AudioBox.prototype.logout = function(){
   this.DaemonConnector.removeAllListeners( "new_request" );
 
   if ( this._user ) {
-    this._user.clear();
+    this._user._clear();
   }
   if ( this._company ) {
-    this._company.clear();
+    this._company._clear();
   }
 
   if ( this._node ) {
@@ -64,10 +64,10 @@ AudioBox.prototype.__defineGetter__("Connectors", function(){
 
 AudioBox.prototype.__defineGetter__("User", function(){
   if ( !this._user ){
-    Logger("User requested");
+    Logger.info("User requested");
     if ( this._company ){
       // Company is already loggedin, so we must perform a completely logout
-      Logger("Company is already logged in, perform a logout");
+      Logger.info("Company is already logged in, perform a logout");
       this.logout();
     }
     this._user = new User( this.Configuration, this.Connectors );
@@ -78,10 +78,10 @@ AudioBox.prototype.__defineGetter__("User", function(){
 
 AudioBox.prototype.__defineGetter__("Company", function(){
   if ( !this._company ){
-    Logger("Company requested");
+    Logger.info("Company requested");
     if ( this._user ){
       // Company is already loggedin, so we must perform a completely logout
-      Logger("User is already logged in, perform a logout");
+      Logger.info("User is already logged in, perform a logout");
       this.logout();
     }
     this._company = new Company( this.Configuration, this.Connectors );
@@ -92,7 +92,7 @@ AudioBox.prototype.__defineGetter__("Company", function(){
 
 AudioBox.prototype.__defineGetter__("Node", function(){
   if ( !this._node ){
-    Logger("Node requested, logout any aother account");
+    Logger.info("Node requested, logout any aother account");
     this.logout();
     this._node = new Node( this.Configuration, this.Connectors );
 

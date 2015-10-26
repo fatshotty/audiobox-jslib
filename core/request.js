@@ -196,7 +196,7 @@ Request.prototype._execute = function(method, url, options){
       _options.headers[ this._authentication.hname ] = this._authentication.prefix + this._authentication.value
     }
 
-    Logger("executing request ", method.toUpperCase(), url);//, options);
+    Logger.warn("executing request ", method.toUpperCase(), url);//, options);
 
     var file = null;
     if ( !!this.downloadFile ){
